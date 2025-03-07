@@ -7,13 +7,13 @@ public:
             int mid = left + (right - left) / 2; // avoid overflow
             if (nums[mid] == target) {
                 return mid;
-            } else if (nums[left] <= nums[mid]) { // left side is sorted
+            } else if (nums[left] <= nums[mid]) { // left side is sorted (include nums[mid])
                 if (nums[left] <= target && target < nums[mid]) {
                     right = mid - 1; // go left
                 } else {
                     left = mid + 1; // go right
                 }
-            } else { // right side is sorted
+            } else { // right side is sorted (include nums[mid])
                 if (nums[mid] < target && target <= nums[right]) {
                     left = mid + 1; // go right
                 } else {
