@@ -16,21 +16,13 @@ public:
         ListNode* dummyHead = new ListNode();
         ListNode* newCur = dummyHead;
         while (cur1 != NULL || cur2 != NULL) {
-            if (cur1 == NULL) {
+            if (cur1 == NULL || (cur2 != NULL && cur2->val < cur1->val)) {
                 newCur->next = cur2;
                 cur2 = cur2->next;
-            } else if (cur2 == NULL) {
+            } else {
                 newCur->next = cur1;
                 cur1 = cur1->next;
-            } else {
-                if (cur1->val < cur2->val) {
-                    newCur->next = cur1;
-                    cur1 = cur1->next;
-                } else {
-                    newCur->next = cur2;
-                    cur2 = cur2->next;
-                }
-            }
+            } 
             newCur = newCur->next;
         }
         return dummyHead->next;
