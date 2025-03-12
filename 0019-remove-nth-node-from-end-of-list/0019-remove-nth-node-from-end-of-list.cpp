@@ -14,20 +14,18 @@ public:
         if (!head) {
             return head;
         }
-        ListNode* slow = head;
-        ListNode* fast = head;
+        ListNode dummyHead(0, head);
+        ListNode* left = &dummyHead;
+        ListNode* right = &dummyHead;
         for (int i = 0; i < n; i++) {
-            fast = fast->next;
+            right = right->next;
         }
-        if (!fast) {
-            return head->next; // remove head
+        while (right->next) {
+            left = left->next;
+            right = right->next;
         }
-        while (fast->next) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-        slow->next = slow->next->next;
-        return head;
+        left->next = left->next->next;
+        return dummyHead.next;
     }
 };
 /*
@@ -35,6 +33,6 @@ node_size >= 1
 1 <= n <= node_size
 x 0 1 2 3 4
 s   f
-    s   f
+      s   f
 n = 2, remove "3"
 */
