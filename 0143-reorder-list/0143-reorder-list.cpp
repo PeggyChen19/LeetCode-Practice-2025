@@ -11,7 +11,7 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        if (!head) {
+        if (!head || !head->next || !head->next->next) { // return the list which doesn't need change
             return;
         }
         // 1. find the middle (or left of the middle) point
@@ -22,9 +22,9 @@ public:
             fast = fast->next->next;
         }
         // 2. reverse the right part
-        ListNode* pre = nullptr;
         ListNode* right = slow->next; // the start of the right part
         slow->next = nullptr; // cut the original left part (important!!!)
+        ListNode* pre = nullptr;
         while (right) {
             ListNode* next = right->next;
             right->next = pre;
@@ -34,7 +34,7 @@ public:
         // 3. combine the two parts
         ListNode* left = head;
         right = pre;
-        while (left && right) {
+        while (right) {
             ListNode* next_left = left->next;
             ListNode* next_right = right->next;
             left->next = right;
