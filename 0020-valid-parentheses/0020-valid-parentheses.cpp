@@ -1,21 +1,23 @@
 class Solution {
 public:
     bool isValid(string s) {
-        stack<char> char_st;
+        stack<char> st;
         for (char c : s) {
             if (c == '(' || c == '{' || c == '[') {
-                char_st.push(c);
-            } else if ( !char_st.empty() && ((c == ')' && char_st.top() == '(') || (c == '}' && char_st.top() == '{') || (c == ']' && char_st.top() == '[')) ) {
-                char_st.pop();
+                st.push(c);
+            } else if ( !st.empty() && isPair(st.top(), c) ) {
+                st.pop();
             } else {
                 return false;
             }
         }
-        if (char_st.empty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return st.empty(); // clear code instead of if else
+    }
+private:
+    bool isPair(char st_top, char cur) {
+        return ( (st_top == '(' && cur == ')') || 
+                 (st_top == '{' && cur == '}') || 
+                 (st_top == '[' && cur == ']') );
     }
 };
 
