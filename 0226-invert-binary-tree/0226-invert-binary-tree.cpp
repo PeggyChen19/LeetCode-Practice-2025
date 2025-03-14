@@ -15,11 +15,9 @@ public:
         if (!root) {
             return nullptr;
         }
-        TreeNode* tmp_right = root->right;
-        root->right = root->left;
-        root->left = tmp_right;
-        invertTree(root->right);
-        invertTree(root->left);
+        TreeNode* original_right = root->right;
+        root->right = invertTree(root->left);
+        root->left = invertTree(original_right);
         return root;
     }
 };
