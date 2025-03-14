@@ -12,19 +12,15 @@
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        invert(root);
-        return root;
-    }
-private:
-    void invert(TreeNode* node) {
-        if (!node) {
-            return;
+        if (!root) {
+            return nullptr;
         }
-        TreeNode* tmp_right = node->right;
-        node->right = node->left;
-        node->left = tmp_right;
-        invert(node->right);
-        invert(node->left);
+        TreeNode* tmp_right = root->right;
+        root->right = root->left;
+        root->left = tmp_right;
+        invertTree(root->right);
+        invertTree(root->left);
+        return root;
     }
 };
 /*
