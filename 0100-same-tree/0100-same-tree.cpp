@@ -12,19 +12,13 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        if (!p && !q) {
-            return true;
+        if (!p || !q) {
+            return (p == q);
         }
-        if (!p || !q || p->val != q->val) {
+        if (p->val != q->val) {
             return false;
         }
-        bool left_same = isSameTree(p->left, q->left);
-        bool right_same = isSameTree(p->right, q->right);
-        if (left_same && right_same) {
-            return true;
-        } else {
-            return false;
-        }
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
 
@@ -34,5 +28,5 @@ func recur(a, b)
     check if root_a == root_b
     left_same = recur(a->left, b->left)
     right_same = recur(a->right, b->right)
-    return based on left_same & right_same
+    return left_same && right_same
 */
