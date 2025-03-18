@@ -12,21 +12,20 @@
 class Solution {
 public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if (isSameTree(root, subRoot)) {
-            return true;
-        }
-        if(!root || !subRoot) {
-            return (root == subRoot);
-        }
-        return (isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
+        string r = "", s = "";
+        tree2string(root, r);
+        tree2string(subRoot, s);
+        if(r.find(s) != string::npos) return true;
+        else return false;
     }
-    bool isSameTree(TreeNode* a, TreeNode*b) {
-        if (!a || !b) {
-            return (a == b);
+    void tree2string(TreeNode* node, string& str){
+        if(!node){
+            str += "#";
+            return;
         }
-        if(a->val != b->val) {
-            return false;
-        }
-        return (isSameTree(a->left, b->left) && isSameTree(a->right, b->right));
+        str += ","; // seperate each node
+        str += to_string(node->val);
+        tree2string(node->left, str);
+        tree2string(node->right, str);
     }
 };
