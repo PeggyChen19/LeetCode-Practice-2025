@@ -12,20 +12,23 @@
 class Solution {
 public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        string r = "", s = "";
-        tree2string(root, r);
-        tree2string(subRoot, s);
-        if(r.find(s) != string::npos) return true;
-        else return false;
-    }
-    void tree2string(TreeNode* node, string& str){
-        if(!node){
-            str += "#";
-            return;
+        string root_str = tree2str(root, "");
+        string sub_str = tree2str(subRoot, "");
+        if (root_str.find(sub_str) != string::npos) {
+            return true;
+        } else {
+            return false;
         }
-        str += ","; // seperate each node
-        str += to_string(node->val);
-        tree2string(node->left, str);
-        tree2string(node->right, str);
+    }
+
+private:
+    string tree2str(TreeNode* node, string s) {
+        if (node) {
+            s = s + "," + to_string(node->val) + ",";
+        } else {
+            s += "N,";
+            return s;
+        }
+        return tree2str(node->right, (tree2str(node->left, s)) );
     }
 };
