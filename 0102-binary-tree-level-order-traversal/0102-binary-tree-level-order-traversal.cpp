@@ -18,23 +18,21 @@ public:
             return ans;
         }
         bfs_q.push(root);
-        bfs_q.push(nullptr);
-        ans.push_back({});
         while (!bfs_q.empty()) {
-            TreeNode* node = bfs_q.front();
-            bfs_q.pop();
-            if (node) {
-                (ans[ans.size()-1]).push_back(node->val);
+            int level_size = bfs_q.size();
+            vector<int> level;
+            for (int i = 0; i < level_size; i++) { // record current level and put all next-level nodes
+                TreeNode* node = bfs_q.front();
+                bfs_q.pop();
+                level.push_back(node->val);
                 if (node->left) {
                     bfs_q.push(node->left);
                 }
                 if (node->right) {
                     bfs_q.push(node->right);
                 }
-            } else if (!bfs_q.empty()){ // seperator
-                bfs_q.push(nullptr);
-                ans.push_back({});
             }
+            ans.push_back(level);
         }
         return ans;
     }
@@ -42,5 +40,5 @@ public:
 
 /*
 level by level -> BFS (queue)
-for diff level, diff vector -> we need to add seperator (nullptr)
+for diff level, diff vector -> record the current queue size (= level size) before insert the next level
 */
