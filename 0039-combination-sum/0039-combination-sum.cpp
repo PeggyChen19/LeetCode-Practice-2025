@@ -29,13 +29,13 @@ private:
 We need to check every possible combination -> enumeration + backtracking
 -> use recursion to achieve it
 
-void backtracking(diff, start):
-    if diff == 0:
-        add new result (combination)
+function backtracking(remaining, start):
+    if remaining == 0:
+        add combination to result
         return
     for (int i = start; i < candidates.size(); i++):
-        if diff - c >= 0:
-            combination.push_back(c)
-            backtracking(diff - c, i)
-            combination.pop_back()
+        if remaining >= c:
+            combination.push(c)
+            backtracking(remaining - c, i)
+            combination.pop()
 */
