@@ -10,25 +10,29 @@
  * };
  */
 class Solution {
+private:
+    int count;
+    int ans;
+
 public:
     int kthSmallest(TreeNode* root, int k) {
         int count = 0;
-        int ans = -1;
-        inOrderTraverse(root, k, count, ans);
+        inOrderTraverse(root, k);
         return ans;
     }
+
 private:
-    void inOrderTraverse(TreeNode* root, int k, int& count, int& ans) {
+    void inOrderTraverse(TreeNode* root, int k) {
         if (!root) {
             return;
         }
-        inOrderTraverse(root->left, k, count, ans);
+        inOrderTraverse(root->left, k);
         count++;
         if (count == k ){
             ans = root->val;
             return;
         }
-        inOrderTraverse(root->right, k, count, ans);
+        inOrderTraverse(root->right, k);
     }
 };
 
