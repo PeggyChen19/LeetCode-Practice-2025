@@ -10,16 +10,15 @@ public:
     }
 
 private:
-    void backtracking(const vector<int>& candidates, int diff, int start) {
-        if (diff == 0) {
+    void backtracking(const vector<int>& candidates, int remaining, int start) {
+        if (remaining == 0) {
             ans.push_back(combination);
             return;
         }
         for (int i = start; i < candidates.size(); i++) {
-            int new_diff = diff - candidates[i];
-            if (new_diff >= 0) {
+            if (candidates[i] <= remaining) {
                 combination.push_back(candidates[i]);
-                backtracking(candidates, new_diff, i);
+                backtracking(candidates, remaining - candidates[i], i);
                 combination.pop_back();
             }
         }
