@@ -11,12 +11,11 @@
  */
 class Solution {
 private:
-    int count;
-    int ans;
+    int count = 0;
+    int ans = -1;
 
 public:
     int kthSmallest(TreeNode* root, int k) {
-        int count = 0;
         inOrderTraverse(root, k);
         return ans;
     }
