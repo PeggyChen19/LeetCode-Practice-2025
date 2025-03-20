@@ -1,54 +1,40 @@
 class Solution {
-private:
-    vector<vector<bool>> visited;
-    int h, w;
-    bool ans = false;
-
 public:
     bool exist(vector<vector<char>>& board, string word) {
-        h = board.size();
-        w = board[0].size();
-        for (int i = 0; i < h; i ++) {
-            vector<bool> tmp(w, false);
-            visited.push_back(tmp);
-        }
+        int h = board.size(), w = board[0].size();
+        vector<vector<bool>> visited(h, vector<bool>(w, false));
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                backtracking(board, i, j, 0, word);
-                if (ans) {
-                    return ans;
+                if (backtracking(board, visited, i, j, 0, word)) {
+                    return true;
                 }
             }
         }
-        return ans;
+        return false;
     }
 
 private:
-    void backtracking(const vector<vector<char>>& board, int i, int j, int word_ind, string& word) {
-        if (board[i][j] != word[word_ind] || visited[i][j] || ans) { // not match or have found ans
-            return;
+    bool backtracking(const vector<vector<char>>& board, vector<vector<bool>>& visited, int i, int j, int word_ind, string& word) {
+        if (board[i][j] != word[word_ind] || visited[i][j]) { // not match or have found ans
+            return false;
         }
         visited[i][j] = true;
-        word_ind++;
-        if (word_ind == word.size()) { // finish matching
-            ans = true;
-            return;
+        if (word_ind == word.size() - 1) { // finish matching
+            return true;
         }
-        if (i - 1 >= 0) { // go up
-            backtracking(board, i - 1, j, word_ind, word);
-        }
-        if (i + 1 < h) { // go down
-            backtracking(board, i + 1, j, word_ind, word);
-        }
-        if (j - 1 >= 0) { // go left
-            backtracking(board, i, j - 1, word_ind, word);
-        }
-        if (j + 1 < w) { // go right
-            backtracking(board, i, j + 1, word_ind, word);
+        vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int k = 0; k < directions.size(); k++) {
+            int x = i + directions[k].first;
+            int y = j + directions[k].second;
+            if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size()) {
+                if (backtracking(board, visited, x, y, word_ind + 1, word)) {
+                    return true;
+                }
+            }
         }
         visited[i][j] = false;
+        return false;
     }
-
 };
 /*
 we need to enumerate all possibilities and use backtracking
