@@ -11,25 +11,29 @@
  */
 class Solution {
 private:
-    unordered_map<int, int> inorder_map;
-    int preorder_ind = 0;
+    unordered_map<int, int> inorder_map; // nodeValue : index
+    int preorder_ind = 0; // record the current root
+
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        inorder_map.clear(); // clear map
         for (int i = 0; i < inorder.size(); i++) { // initialize map
             inorder_map[inorder[i]] = i;
         }
         return buildSubTree(preorder, 0, preorder.size() - 1);
     }
-    TreeNode* buildSubTree(vector<int>& preorder, int start, int end) {
-        if (start > end) {
+
+private:
+    TreeNode* buildSubTree(const vector<int>& preorder, int left, int right) {
+        if (left > right) { // there is no node in this range
             return nullptr;
         }
-        int root_value = preorder[preorder_ind];
-        int inorder_ind = inorder_map[root_value];
-        TreeNode* root = new TreeNode(root_value);
+        int root_val = preorder[preorder_ind];
+        int inorder_ind = inorder_map[root_val];
+        TreeNode* root = new TreeNode(root_val);
         preorder_ind++;
-        root->left = buildSubTree(preorder, start, inorder_ind - 1);
-        root->right = buildSubTree(preorder, inorder_ind + 1, end);
+        root->left = buildSubTree(preorder, left, inorder_ind - 1);
+        root->right = buildSubTree(preorder, inorder_ind + 1, right);
         return root;
     }
 };
