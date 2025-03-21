@@ -15,13 +15,13 @@ public:
 
 private:
     bool backtracking(const vector<vector<char>>& board, vector<vector<bool>>& visited, int i, int j, int word_ind, string& word) {
-        if (board[i][j] != word[word_ind] || visited[i][j]) { // not match or have found ans
+        if (board[i][j] != word[word_ind] || visited[i][j]) { // not match or have visited
             return false;
-        }
-        visited[i][j] = true;
+        }        
         if (word_ind == word.size() - 1) { // finish matching
             return true;
         }
+        visited[i][j] = true;
         vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (int k = 0; k < directions.size(); k++) {
             int x = i + directions[k].first;
