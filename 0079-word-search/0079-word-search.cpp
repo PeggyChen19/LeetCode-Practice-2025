@@ -1,11 +1,13 @@
 class Solution {
+private:
+    const vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
 public:
     bool exist(vector<vector<char>>& board, string word) {
         int h = board.size(), w = board[0].size();
-        vector<vector<bool>> visited(h, vector<bool>(w, false));
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                if (backtracking(board, visited, i, j, 0, word)) {
+                if (dfs(board, i, j, 0, word)) {
                     return true;
                 }
             }
@@ -14,25 +16,23 @@ public:
     }
 
 private:
-    bool backtracking(const vector<vector<char>>& board, vector<vector<bool>>& visited, int i, int j, int word_ind, string& word) {
-        if (board[i][j] != word[word_ind] || visited[i][j]) { // not match or have visited
-            return false;
-        }        
+    bool dfs(vector<vector<char>>& board, int i, int j, int word_ind, const string& word) {
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] != word[word_ind]) { 
+            return false; // out of range || not match || have visited
+        }
         if (word_ind == word.size() - 1) { // finish matching
             return true;
         }
-        visited[i][j] = true;
-        vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        char tmp = board[i][j];
+        board[i][j] = '#';
         for (int k = 0; k < directions.size(); k++) {
             int x = i + directions[k].first;
             int y = j + directions[k].second;
-            if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size()) {
-                if (backtracking(board, visited, x, y, word_ind + 1, word)) {
-                    return true;
-                }
+            if (dfs(board, x, y, word_ind + 1, word)) {
+                return true;
             }
         }
-        visited[i][j] = false;
+        board[i][j] = tmp;
         return false;
     }
 };
