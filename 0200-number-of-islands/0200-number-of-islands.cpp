@@ -8,7 +8,7 @@ public:
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[0].size(); j++) {
                 if (grid[i][j] == '1') { // starting point of land
-                    dfs(grid, i, j);
+                    bfs(grid, i, j);
                     ans++;
                 }
             }
@@ -17,13 +17,21 @@ public:
     }
 
 private:
-    void dfs(vector<vector<char>>& grid, int i, int j) {
-        grid[i][j] = '0'; // visited
-        for (auto [dx, dy] : directions) {
-            int x = i + dx;
-            int y = j + dy;
-            if (x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size() && grid[x][y] == '1') {
-                dfs(grid, x, y);
+    void bfs(vector<vector<char>>& grid, int i, int j) {
+        queue<pair<int, int>> q;
+        q.push({i, j});
+        grid[i][j] = '0';
+        while (!q.empty()) {
+            i = q.front().first;
+            j = q.front().second;    
+            q.pop();
+            for (auto [dx, dy] : directions) {
+                int x = i + dx;
+                int y = j + dy;
+                if (x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size() && grid[x][y] == '1') {
+                    q.push({x, y});
+                    grid[x][y] = '0';
+                }
             }
         }
     }
