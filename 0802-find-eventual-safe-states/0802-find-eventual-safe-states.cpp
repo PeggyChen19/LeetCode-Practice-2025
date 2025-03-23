@@ -1,41 +1,52 @@
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<int> ans;
         int num_node = graph.size();
-        vector<int> status(num_node, 0); // 0: unvisited, 1: visiting, 2: not-safe, 3: safe
+        vector<bool> ans(num_node, false);
+        vector<vector<int>> reverse_graph(num_node);
+        vector<int> indegree(num_node, 0);
         for (int i = 0; i < num_node; i++) {
-            if (dfs(graph, i, status)) {
-                ans.push_back(i);
+            for (int n : graph[i]) {
+                reverse_graph[n].push_back(i);
+                indegree[i]++;
             }
         }
-        return ans;
-    }
-private:
-    bool dfs(vector<vector<int>>& graph, int i, vector<int>& status) {
-        if (status[i] == 1) { // cycle -> not safe
-            status[i] == 2;
-            return false;
-        } else if (status[i] > 1) { // has have result
-            return status[i] == 3;
-        }
-        status[i] = 1;
-        for (int n : graph[i]) {
-            if(!dfs(graph, n, status)) { // if at least one neighbor is not-safe
-                status[i] = 2; // the cur not is not safe neither
-                return false;
+        queue<int> q;
+        for (int i = 0; i < num_node; i++) {
+            if (indegree[i] == 0) { // terminate nodes
+                q.push(i);
             }
         }
-        status[i] = 3; // all neighbors are safe or it's the terminate node
-        return true;
+        while (!q.empty()) {
+            int cur = q.front();
+            q.pop();
+            ans[cur] = true;
+            for (int n : reverse_graph[cur]) {
+                indegree[n]--;
+                if (indegree[n] == 0) {
+                    q.push(n);
+                }
+            }
+        }
+        vector<int> result;
+        for (int i = 0; i < num_node; i++) {
+            if(ans[i]) {
+                result.push_back(i);
+            }
+        }
+        return result;
     }
 };
 /*
 if the node is in a cycle -> not a safe node
 but for a node starts from a node in cycle but reaches terminate node can be a safe node
-use DFS to record
-    if all nodes from this node are safe, this node is safe
-    else, this node is not safe
+use BFS:
+find the nodes which no outcoming node -> terminate node
+push into queue
+while
+    mark front node as safe and remove its incoming edge
+    push new nodes which have not outcoming node
+like topological sort reversed version
 
           4 -> 5
           |
