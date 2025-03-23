@@ -3,35 +3,30 @@ public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         vector<int> ans;
         int num_node = graph.size();
-        vector<char> status(num_node, 'u'); // 'u': unvisited, v: visiting, n: not-safe, s: safe
+        vector<int> status(num_node, 0); // 0: unvisited, 1: visiting, 2: not-safe, 3: safe
         for (int i = 0; i < num_node; i++) {
-            dfs(graph, i, status);
-        }
-        for (int i = 0; i < num_node; i++) {
-            if (status[i] == 's') {
+            if (dfs(graph, i, status)) {
                 ans.push_back(i);
             }
         }
         return ans;
     }
 private:
-    bool dfs(vector<vector<int>>& graph, int i, vector<char>& status) {
-        if (status[i] == 'v') { // cycle -> not safe
-            status[i] == 'n';
+    bool dfs(vector<vector<int>>& graph, int i, vector<int>& status) {
+        if (status[i] == 1) { // cycle -> not safe
+            status[i] == 2;
             return false;
-        } else if (status[i] == 'n') {
-            return false;
-        } else if (status[i] == 's') {
-            return true;
+        } else if (status[i] > 1) { // has have result
+            return status[i] == 3;
         }
-        status[i] = 'v';
+        status[i] = 1;
         for (int n : graph[i]) {
             if(!dfs(graph, n, status)) { // if at least one neighbor is not-safe
-                status[i] = 'n'; // the cur not is not safe neither
+                status[i] = 2; // the cur not is not safe neither
                 return false;
             }
         }
-        status[i] = 's'; // all neighbors are safe or it's the terminate node
+        status[i] = 3; // all neighbors are safe or it's the terminate node
         return true;
     }
 };
