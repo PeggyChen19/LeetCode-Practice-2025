@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int num_node = graph.size();
-        vector<bool> ans(num_node, false);
+        vector<int> ans;
         vector<vector<int>> reverse_graph(num_node);
         vector<int> indegree(num_node, 0);
         for (int i = 0; i < num_node; i++) {
@@ -20,7 +20,7 @@ public:
         while (!q.empty()) {
             int cur = q.front();
             q.pop();
-            ans[cur] = true;
+            ans.push_back(cur);
             for (int n : reverse_graph[cur]) {
                 indegree[n]--;
                 if (indegree[n] == 0) {
@@ -28,13 +28,8 @@ public:
                 }
             }
         }
-        vector<int> result;
-        for (int i = 0; i < num_node; i++) {
-            if(ans[i]) {
-                result.push_back(i);
-            }
-        }
-        return result;
+        sort(ans.begin(), ans.end());
+        return ans;
     }
 };
 /*
