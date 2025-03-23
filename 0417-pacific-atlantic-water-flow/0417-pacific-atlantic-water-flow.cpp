@@ -49,7 +49,6 @@ private:
 /*
 vector<vector<bool>> p
 vector<vector<bool>> a
-go through all cells
-    use dfs to traverse (if the height of neighbor <= cur, go there)
-    until it reaches both ocean, go back to update destination
+in the beginning, we can only know the desination of marginal cells
+-> reverse the question, use DFS/BFS from marginal cells to other heigher cells to find the resource
 */
