@@ -13,7 +13,7 @@ public:
                 next[sum + nums[i]] += memo[sum];
                 next[sum - nums[i]] += memo[sum];
             }
-            memo = next;
+            memo.swap(current);
         }
         return memo[target];
     }
