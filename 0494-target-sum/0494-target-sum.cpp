@@ -10,8 +10,8 @@ public:
         for (int i = 1; i < nums.size(); i++) {
             unordered_map<int, int> next;
             for (auto [sum, count] : memo) {
-                next[sum + nums[i]] += memo[sum];
-                next[sum - nums[i]] += memo[sum];
+                next[sum + nums[i]] += count; // count == memo[sum]
+                next[sum - nums[i]] += count;
             }
             memo.swap(next);
         }
@@ -36,5 +36,4 @@ We would like to divide and conquer this question
 6. memorization
     we can memorize dp(i, sum) and use it later
     unordered_map<sum, count>> // this is all the possible sum for 0~i nums
-
 */
