@@ -9,13 +9,8 @@ public:
             return false;
         }
         vector<bool> cur_sum(half_sum + 1, false); // include 0
-        cur_sum[0] = true;
-        if (nums[0] <= half_sum) {
-            cur_sum[nums[0]] = true;
-        } else {
-            return false;
-        }
-        for (int i = 1; i < nums.size(); i++) { // start from 1 because 0 is initialized
+        cur_sum[0] = true; // when there is no num, it can sum up to 0
+        for (int i = 0; i < nums.size(); i++) { // start from 1 because 0 is initialized
             // do it backward to avoid overwriting original content
             for (int j = half_sum; j >= nums[i]; j--) { // prevent index to be negative -> j >= nums[i]
                 cur_sum[j] = cur_sum[j - nums[i]] || cur_sum[j];
