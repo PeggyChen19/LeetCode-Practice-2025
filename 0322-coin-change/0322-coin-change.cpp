@@ -4,28 +4,21 @@ class Solution {
 			if (amount == 0) {
 				return 0;
 			}
-			vector<int> dp(amount + 1, -1); // 0~amount
-			// initialize
+			vector<int> dp(amount + 1, INT_MAX); // 0~amount 
 			dp[0] = 0;
-			int init = coins[0], i = 1;
-			while (init*i <= amount) { 
-				dp[init*i] = i;
-				i++;
-			}
-			// dp
-			for (int i = 1; i < coins.size(); i++) {
+			for (int i = 0; i < coins.size(); i++) {
 				for (int j = coins[i]; j <= amount; j++) { // j-coins[i] >= 0
-					if (dp[j - coins[i]] != -1) { // exist solution
-						if (dp[j] != -1) { // both has solution -> use min to decide
-							dp[j] = min(dp[j], dp[j - coins[i]] + 1);
-						} else {
-							dp[j] = dp[j - coins[i]] + 1;
-						}
+					if (dp[j - coins[i]] != INT_MAX) { // exist solution
+						dp[j] = min(dp[j], dp[j - coins[i]] + 1);
 					}
 				}
 			}
-			return dp[amount];
-		}
+            if (dp[amount] == INT_MAX) {
+                return -1;
+            } else {
+                return dp[amount];
+            }
+		} 
 	};
 	/*
 	1. State & Subproblem
@@ -38,9 +31,8 @@ class Solution {
 				   ^ not choose     ^ choose one more this coin
 	// if w(i, s-coint[i] == -1), w(i, s) == w(i-1, s)
 	4. Base Case
-	w(0, 0) = 0
-	w(0, 1~amount) = -1
-	w(0, coins[0]*n) = n
+	w(-1, 0) = 0
+	w(-1, 1~amount) = -1
 	5. Computational Sequence (bottom-up / top-down)
 	bottom-up: double for loop: index & amount
 	6. Memorization - build a lookup table
