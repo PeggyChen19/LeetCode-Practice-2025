@@ -1,10 +1,9 @@
 class Solution {
-private:
-    vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 public:
     int orangesRotting(vector<vector<int>>& grid) {
+        const vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         int m = grid.size(), n = grid[0].size();
-        int fresh_count = 0, ans = -1;
+        int fresh_count = 0, ans = 0;
         queue<pair<int, int>> q;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -12,17 +11,14 @@ public:
                     fresh_count++;
                 } else if (grid[i][j] == 2) { // rotten -> starting point
                     q.push({i, j});
+                    ans = -1; // we have to handle rotten ones previously
                 }
             }
-        }
-        if (fresh_count == 0) {
-            return 0;
         }
         while (!q.empty()) {
             int layer_size = q.size();
             for (int k = 0; k < layer_size; k++) {
-                int i = q.front().first;
-                int j = q.front().second;
+                auto [i, j] = q.front();
                 q.pop();
                 for (auto [dx, dy] : directions) {
                     int x = i + dx;
@@ -43,10 +39,8 @@ public:
 010 010 020
 111 121 222
 021 022 022
-BFS
-use a queue (everything in the queue will be rotten)
 
-queue bfs
+BFS -> queue
 for all rotten
     push into queue
 while q is not empty
