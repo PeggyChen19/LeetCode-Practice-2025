@@ -1,27 +1,27 @@
 class Solution {
 public:
     int numDecodings(string s) {
-        if (s[0] == '0') { // invalid
+        if (s.size() == 0 || s[0] == '0') { // invalid
             return 0;
         }
-        int back_two = 1, back_one = 1;
+        int prev_two = 1, prev_one = 1;
         for (int i = 1; i < s.size(); i++) {
             int cur;
             if (s[i] == '0') {
                 if (s[i-1] != '1' && s[i-1] != '2') { // invalid
                     return 0;
                 } else { // it must combine with previous one
-                    cur = back_two;
+                    cur = prev_two;
                 }
             } else if (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) { // i can be combine with previous one
-                cur = back_two + back_one;
+                cur = prev_two + prev_one;
             } else { // i must be individual
-                cur = back_one;
+                cur = prev_one;
             }
-            back_two = back_one;
-            back_one = cur;
+            prev_two = prev_one;
+            prev_one = cur;
         }
-        return back_one;
+        return prev_one;
     }
 };
 /*
@@ -48,5 +48,6 @@ Base case:
 f(-1) = 1
 f(0) = 1
 Implement: Use a for loop
-Memorization: Use 2 var to record back_one & back_two
+Memorization: Use 2 var to record prev_one & prev
+_two
 */
