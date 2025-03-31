@@ -5,8 +5,8 @@ public:
             return 0;
         }
         int back_two = 0;
-        int back_one = nums[0];
-        for (int i = 1; i < nums.size(); i++) {
+        int back_one = 0;
+        for (int i = 0; i < nums.size(); i++) {
             int new_back_two = back_one;
             back_one = max(nums[i] + back_two, back_one);
             back_two = new_back_two;
