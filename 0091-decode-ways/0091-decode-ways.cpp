@@ -6,18 +6,16 @@ public:
         }
         int prev_two = 1, prev_one = 1;
         for (int i = 1; i < s.size(); i++) {
-            int cur;
-            if (s[i] == '0') {
-                if (s[i-1] != '1' && s[i-1] != '2') { // invalid
-                    return 0;
-                } else { // it must combine with previous one
-                    cur = prev_two;
-                }
-            } else if (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) { // i can be combine with previous one
-                cur = prev_two + prev_one;
-            } else { // i must be individual
-                cur = prev_one;
+            int cur = 0;
+            if (s[i] == '0' && s[i-1] != '1' && s[i-1] != '2') { // invalid
+                return 0;
             }
+            if (s[i] != '0') { // can be individual
+                cur += prev_one;
+            }
+            if (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) { // can combine with previous one
+                cur += prev_two;
+            } 
             prev_two = prev_one;
             prev_one = cur;
         }
