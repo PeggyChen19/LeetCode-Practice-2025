@@ -7,9 +7,9 @@ public:
         int back_two = 0;
         int back_one = 0;
         for (int i = 0; i < nums.size(); i++) {
-            int new_back_two = back_one;
-            back_one = max(nums[i] + back_two, back_one);
-            back_two = new_back_two;
+            int current = max(nums[i] + back_two, back_one);
+            back_two = back_one;
+            back_one = current;
         }
         return back_one;
     }
