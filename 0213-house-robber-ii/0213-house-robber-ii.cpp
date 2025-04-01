@@ -1,7 +1,11 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        return max(sub_rob(nums, 0, nums.size() - 2), sub_rob(nums, 1, nums.size() -1));
+        int size = nums.size();
+        if (size == 1) {
+            return nums[0];
+        }
+        return max(sub_rob(nums, 0, size - 2), sub_rob(nums, 1, size -1));
     }
 private:
     int sub_rob(vector<int>& nums, int start, int end) {
