@@ -24,8 +24,8 @@ private:
             } else if (nums[mid] < target) { // go right
                 left = mid + 1;
             }
-            nums[left] = target; // we want to repalce (sth > target) to target
         }
+        nums[left] = target; // we want to repalce (sth > target) to target
     }
 };
 /*
