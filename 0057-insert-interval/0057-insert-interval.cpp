@@ -11,13 +11,12 @@ public:
             ans.push_back(intervals[i]);
             i++;
         }
-        vector<int> mergeInterval = {newInterval[0], newInterval[1]};
-        while (i < n && mergeInterval[1] >= intervals[i][0]) { // overlapping
-            mergeInterval[0] = min(intervals[i][0], mergeInterval[0]);
-            mergeInterval[1] = max(intervals[i][1], mergeInterval[1]);
+        while (i < n && newInterval[1] >= intervals[i][0]) { // overlapping
+            newInterval[0] = min(intervals[i][0], newInterval[0]);
+            newInterval[1] = max(intervals[i][1], newInterval[1]);
             i++;
         }
-        ans.push_back(mergeInterval);
+        ans.push_back(newInterval);
         while (i < n) { // after new
             ans.push_back(intervals[i]);
             i++;
