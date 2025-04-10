@@ -1,21 +1,26 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        string ans = "";
-        for (int i = 0; i < s.size(); i++) {
-            ans = expandPalindrome(s, i-1, i+1, string(1, s[i]), ans);
-            ans = expandPalindrome(s, i, i+1, "", ans);
+        if (s.empty()) {
+            return "";
         }
-        return ans;
+        int start = 0, len = 0;
+        for (int i = 0; i < s.size(); i++) {
+            expandPalindrome(s, i, i, start, len);
+            expandPalindrome(s, i, i+1, start, len);
+        }
+        return s.substr(start, len);
     }
 private:
-    string expandPalindrome(string s, int left, int right, string local_ans, string ans) {
+    void expandPalindrome(string s, int left, int right, int& start, int& len) {
         while (left >= 0 && right < s.size() && s[left] == s[right]) {
-            local_ans = s[left] + local_ans + s[right];
             left--;
             right++;
         }
-        return (local_ans.size() > ans.size()) ? local_ans : ans;
+        if (right - left - 1 > len) { // (right - 1) - (left + 1) + 1
+            start = left + 1;
+            len = right - left - 1;
+        }
     }
 };
 /*
