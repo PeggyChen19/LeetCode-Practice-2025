@@ -25,9 +25,8 @@ eeabca
 -> aba
 
 palindromic -> 前面跟後面有 common element
-翻轉 s 後，比較 s 與 reverse s 的 longest common subsequence，就會是 longest
-palindromic subsequence
--> 翻轉後還能找到兩字串間相對順序不變的 common element，就是 Palindromic
+翻轉後還能找到兩字串間相對順序不變的 common elements，就是 Palindromic
+-> 比較 s 與 reversed s 的 longest common subsequence，就會是 longest palindromic subsequence
 
 dp[i][j]: LCS from s[0:i] & rs[0:j]
 dp[-1][*] = dp[*][-1] = 0
@@ -38,6 +37,6 @@ else
     dp[i][j] = max(dp[i][j-1], dp[i-1][j]) // inherit the current max
 
 Space Optimization:
-only use two row dp[2][j]
+only use two rows
 
 */
