@@ -1,9 +1,9 @@
 class Solution {
 private:
-    unordered_map<uint8_t, uint8_t> look_up;
+    vector<int> look_up = vector<int>(256, -1);
     uint8_t reverseByte(uint8_t n) {
         uint8_t modified_n = n;
-        if (!look_up.count(n)) {
+        if (look_up[n] == -1) {
             uint8_t r = 0;
             for (int i = 0; i < 8; i++) {
                 r = (r << 1) + (modified_n & 1);
