@@ -10,9 +10,6 @@ public:
     }
 };
 /*
-n=100111
-r=111001
-
 get the right most bit of n: right_most
 left shit r and add right_most to the r
 right shift n
