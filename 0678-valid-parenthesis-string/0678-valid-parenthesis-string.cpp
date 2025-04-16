@@ -40,5 +40,5 @@ we can maintain a range of possible "unmatched (" : min ~ max
 invalid situation:
 max < 0 during the loop
 valid situation:
-max == 0 in the end of the loop
+min == 0 in the end of the loop
 */
