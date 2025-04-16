@@ -19,8 +19,8 @@ public:
 2, 2
 -> 4
 
-States: index, current sum
-Sub-problem: current sum from combinations of coins 0~i
+States: index, sum, current combination ways
+Sub-problem: current combination ways from combinations of coins 0~i for sum
 Decision: choose it n times or not choose it
 Base case:
 dp[-1][0] = 1
