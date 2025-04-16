@@ -1,26 +1,23 @@
 class Solution {
 public:
 	bool checkValidString(string s) {
-		int min_left = 0, max_left = 0;
+		int minL = 0, maxL = 0; // the possible range of (
 		for (char c : s) {
 			if (c == '(') {
-				min_left++;
-				max_left++;
+				minL++;
+				maxL++;
 			} else if (c == ')') {
-				min_left--;
-				max_left--;
+				minL = max(minL - 1, 0);
+				maxL--;
 			} else { // *
-				min_left--; // might be right
-				max_left++; // might be left
+				minL = max(minL - 1, 0); // might be right
+				maxL++; // might be left
 			}
-			if (max_left < 0) { // need more left 
+			if (maxL < 0) { // need more left 
 				return false;
 			}
-			if (min_left < 0) { // * can't be right for now
-				min_left = 0;
-			}
 		}
-		return min_left == 0 ? true : false;
+		return minL == 0 ? true : false;
 	}
 };
 /*
