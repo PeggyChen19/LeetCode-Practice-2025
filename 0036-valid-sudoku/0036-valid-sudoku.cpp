@@ -26,15 +26,17 @@ private:
         vector<bool> record(10, false);
         for (int i = top; i <= down; i++) {
             for (int j = left; j <= right; j++) {
-                if(record[board[i][j]]) {
-                    return false;
+                if (board[i][j] != '.') {
+                    if(record[board[i][j]]) {
+                        return false;
+                    }
+                    record[board[i][j]] = true;
                 }
-                record[board[i][j]] = true;
             }
         }
         return true;
     }
-}
+};
 /*
 vector<bool> record(10, false)
 function validate(top, down, left, right) // range
