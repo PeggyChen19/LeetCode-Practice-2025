@@ -10,10 +10,8 @@ public:
 
 class Trie {
 public:
-    TrieNode* getRoot() {
-        return root;
-    }
-    Trie (vector<string>& words) {
+    TrieNode* root;
+    Trie(vector<string>& words) {
         root = new TrieNode();
         for (string word : words) {
             addWord(word);
@@ -30,45 +28,43 @@ public:
         }
         cur->is_end = true;
     }
-private:
-    TrieNode* root;
 };
 
 class Solution {
 private:
-    unordered_set<string> ans_set;
+    unordered_set<string> results;
     const vector<pair<int, int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-    void findWordFromTrie(vector<vector<char>>& board, int x, int y, string str, TrieNode* cur) {
-        if (cur->is_end) {
-            ans_set.insert(str);
-        }
-        if (x < 0 || x >= board.size() || y < 0 || y >= board[0].size() || !board[x][y]) {
-            return;
-        }
+    void dfs(vector<vector<char>>& board, int x, int y, string& path, TrieNode* cur) {
         char ch = board[x][y];
         if (cur->children[ch - 'a'] != NULL) { // have this char in board
             cur = cur->children[ch - 'a'];
+            path.push_back(ch);
+            if (cur->is_end) {
+                results.insert(path);
+                cur->is_end = false; // avoid duplicate operations
+            }
             board[x][y] = '\0';
             for (auto [dx, dy] : directions) {
-                findWordFromTrie(board, (x + dx), (y + dy), (str + ch), cur);
+                int i = x + dx;
+                int j = y + dy;
+                if (i >= 0 && i < board.size() && j >= 0 && j < board[0].size() && board[i][j]) {
+                    dfs(board, i, j, path, cur);
+                }
             }
             board[x][y] = ch;
+            path.pop_back();
         }
     }
 public:
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         Trie* trie = new Trie(words);
-        TrieNode* root = trie->getRoot();
+        string path = "";
         for (int i = 0; i < board.size(); i++) {
             for (int j = 0; j < board[0].size(); j++) {
-                findWordFromTrie(board, i, j, "", root);
+                dfs(board, i, j, path, trie->root);
             }
         }
-        vector<string> ans;
-        for (auto str : ans_set) {
-            ans.push_back(str);
-        }
-        return ans;
+        return vector<string>(results.begin(), results.end());
     }
 };
 /*
