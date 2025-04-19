@@ -6,9 +6,7 @@ public:
             if (!validate(i, i, 0, s - 1, board)) {
                 return false;
             }
-        }
-        for (int j = 0; j < s; j++) { // each col
-            if (!validate(0, s-1, j, j, board)) {
+            if (!validate(0, s-1, i, i, board)) { // each col
                 return false;
             }
         }
@@ -23,14 +21,14 @@ public:
     }
 private: 
     bool validate(int top, int down, int left, int right, vector<vector<char>>& board) {
-        vector<bool> record(10, false);
+        vector<bool> record(9, false);
         for (int i = top; i <= down; i++) {
             for (int j = left; j <= right; j++) {
                 if (board[i][j] != '.') {
-                    if(record[board[i][j]]) {
+                    if(record[board[i][j] - '1']) {
                         return false;
                     }
-                    record[board[i][j]] = true;
+                    record[board[i][j] - '1'] = true;
                 }
             }
         }
@@ -38,7 +36,7 @@ private:
     }
 };
 /*
-vector<bool> record(10, false)
+vector<bool> record(9, false)
 function validate(top, down, left, right) // range
     for all element in range
         check if num[board[i][j]] exists or not
@@ -48,6 +46,6 @@ for each col
     validate
 for each square
     validate
-Time: O(m*n*3)
-Space: O(1)
+Time: O(9*9*3)
+Space: O(9)
 */
