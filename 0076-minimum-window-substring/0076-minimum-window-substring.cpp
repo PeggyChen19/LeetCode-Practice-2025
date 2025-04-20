@@ -19,7 +19,7 @@ public:
                     minL = cur_len;
                 }
                 map[s[left]]++; // our need increase we remove left
-                if (map[s[left]] == 1) { // s[left] matches matched element in t
+                if (map[s[left]] > 0) { // s[left] matches matched element in t
                     unmatched++;
                 }
                 left++;
