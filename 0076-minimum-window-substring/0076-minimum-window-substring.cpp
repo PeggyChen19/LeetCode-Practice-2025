@@ -18,8 +18,8 @@ public:
                     head = left;
                     minL = cur_len;
                 }
-                map[s[left]]++; // our need increase we remove left
-                if (map[s[left]] > 0) { // s[left] matches matched element in t
+                map[s[left]]++; // our need increase because we remove s[left]
+                if (map[s[left]] > 0) { // there is more need than we have
                     unmatched++;
                 }
                 left++;
