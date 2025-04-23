@@ -1,50 +1,46 @@
 class Solution {
 public:
-    bool checkInclusion(string s1, string s2) {
-        unordered_map<char, int> map;
-        int unmatched = s1.size(), begin = 0, end = 0;
-        for (char c : s1) {
-            map[c]++;
-        }
-        while (end < s2.size()) {
-            if (map[s2[begin]] == 0) { // not match -> move both begin & end toward next
-                begin++;
-                end = begin;
-            } else {
-                while (end < s2.size() && map[s2[end]] > 0) { // matching
-                    map[s2[end]]--;
-                    unmatched--;
-                    end++; // expanding end
-                    if (unmatched == 0) {
-                        return true;
-                    }
-                }
-                // matched failed -> shrink begin
-                map[s2[begin]]++;
-                unmatched++;
-                begin++;
-            }
-        }
-        return false;
-    }
+	bool checkInclusion(string s1, string s2) {
+		vector<int> freq(26, 0);
+		int unmatched = s1.size(), left = 0;
+		for (char c : s1) {
+			freq[c - 'a']++;
+		}
+		for (int right = 0; right < s2.size(); right++) {
+			if (freq[s2[right] - 'a'] > 0) {
+				unmatched--;
+			}
+			freq[s2[right] - 'a']--;
+			if (right - left + 1 == s1.size()) {
+				if (unmatched == 0) {
+					return true;
+				}
+				freq[s2[left] - 'a']++;
+				if (freq[s2[left] - 'a'] > 0) {
+					unmatched++;
+				}
+				left++;
+			}
+		}
+		return false;
+	}
 };
 /*
 s1 = a b c
 s2 = d c a b e
 
-substring -> sliding window
+substring -> sliding window (fixed window)
 
-unordered_map s(s1) // char:count
-umatched = s1.size()
-begin = 0, end = 0
-while end < s2.end
-    if s2[begin] not in s1
-        begin++
-        end = max(begin, end)
-    else
-        while end < s2.end && s2[end] in s1
-            end++
-            return if inclusion
-        // matched failed
-        begin++
+vector<int> freq(26, 0)
+unmatched = s1.size
+init freq based on s1
+left = 0
+for (right = 0; right < s2.size(); right++)
+	update unmatched & freq 
+	if (right - left + 1 == s1.size())
+		if unmatched == 0
+			return true
+		update unmatched & freq
+		left++
+return false
 */
