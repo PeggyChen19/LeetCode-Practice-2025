@@ -1,15 +1,20 @@
 class Solution {
 private:
     int partition(vector<int>& nums, int left, int right) {
-        int start = left;
-        int pivot = nums[start];
-        while (left < right) { // end while when they are equal (no need to change)
-            while (left < right && nums[right] <= pivot) right--;
-            while (left < right && nums[left] >= pivot) left++;
-            swap(nums[left], nums[right]);
+        int pivot = nums[left], l = left + 1, r = right;
+        while (l <= r) {
+            if (nums[l] < pivot && nums[r] > pivot) {
+                swap(nums[l++], nums[r--]);
+            }
+            if (nums[l] >= pivot) {
+                l++;
+            }
+            if (nums[r] <= pivot) {
+                r--;
+            }
         }
-        swap(nums[start], nums[left]);
-        return left;
+        swap(nums[left], nums[r]);
+        return r;
     }
 
 public:
