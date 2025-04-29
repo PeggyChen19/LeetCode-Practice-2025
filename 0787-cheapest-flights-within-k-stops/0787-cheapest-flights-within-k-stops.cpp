@@ -6,13 +6,11 @@ public:
             graph[flight[0]].push_back({flight[1], flight[2]});
         }
         vector<int> dist(n, INT_MAX); // the stop of lowest cost
-        using T = vector<int>;
+        using T = tuple<int, int, int>;
         priority_queue<T, vector<T>, greater<T>> min_heap; // cost, stop, node
         min_heap.push({0, 0, src});
         while (!min_heap.empty()) {
-            int cost = min_heap.top()[0];
-            int stop = min_heap.top()[1];
-            int node = min_heap.top()[2];
+            auto [cost, stop, node] = min_heap.top();
             min_heap.pop();
             if (node == dst) return cost;
             if (stop > k) continue;
