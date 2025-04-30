@@ -1,28 +1,35 @@
 class Solution {
 public:
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<pair<int, int>>> graph(n); // src: dst, cost
-        for (auto flight : flights) {
-            graph[flight[0]].push_back({flight[1], flight[2]});
-        }
-        vector<int> dist(n, INT_MAX); // the stop of lowest cost
-        using T = tuple<int, int, int>;
-        priority_queue<T, vector<T>, greater<T>> min_heap; // cost, stop, node
-        min_heap.push({0, 0, src});
-        while (!min_heap.empty()) {
-            auto [cost, stop, node] = min_heap.top();
-            min_heap.pop();
-            if (node == dst) return cost;
-            if (stop > k) continue;
-            if (stop >= dist[node]) continue; // top() has relative higher cost and dist -> not possible to be a better path
-            dist[node] = stop; // update stop
-            for (auto [neighbor, weight] : graph[node]) {
-                min_heap.push({cost + weight, stop+1, neighbor});
-            }
-        }
-        return -1;
-    }
+	int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+		vector<int> cost(n, INT_MAX), tmp(n, INT_MAX); // node: cost
+		cost[src] = 0;
+		for (int i = 0; i <= k; i++) { // k stops (except src & dst) -> k+1 edges from src to dst
+			bool changed = false;
+			tmp = cost;
+			for (auto f : flights) {
+				if(cost[f[0]] != INT_MAX && cost[f[0]] + f[2] < tmp[f[1]]) {
+					tmp[f[1]] = cost[f[0]] + f[2];
+					changed = true;
+				}
+			}
+			swap(cost, tmp);
+			if (!changed) break;
+		}
+		return cost[dst] == INT_MAX ? -1 : cost[dst];
+	}
 };
 /*
-No negative weight -> Dijsktra
+Bellman-ford
+vector<int> cost // node: cost
+cost[src] = 0
+
+for i = 0; i <= k; i++
+	bool changed = false
+	for (f in flights)
+		if f.src + f.cost < cost[dst]
+			update cost
+			changed = true
+	if !changed
+		return
+return cost[dst]
 */
