@@ -17,6 +17,7 @@ public:
     }
     
     vector<int> getNewsFeed(int userId) {
+        checkUserExist(userId);
         vector<int> results;
         priority_queue<vector<int>> maxHeap; // timestamp, tweetId, userId, postListInd
         pushHeap(maxHeap, userId, userList[userId]->postList.size() - 1); // include user itself
