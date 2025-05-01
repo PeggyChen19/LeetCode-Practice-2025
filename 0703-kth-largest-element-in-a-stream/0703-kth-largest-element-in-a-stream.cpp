@@ -5,7 +5,7 @@ public:
     KthLargest(int k, vector<int>& nums): kth(k) {
         for (int num : nums) {
             minHeap.push(num);
-            if (minHeap.size() > k) {
+            if (minHeap.size() > kth) {
                 minHeap.pop();
             }
         }
