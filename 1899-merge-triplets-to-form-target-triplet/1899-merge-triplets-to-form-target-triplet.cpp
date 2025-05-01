@@ -30,5 +30,4 @@ for (t : triplets)
         if (t[2] == c) c = true;
     }
 return a && b && c
-
 */
