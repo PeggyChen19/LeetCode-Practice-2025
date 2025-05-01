@@ -2,11 +2,11 @@ class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
         // 1. find the meeting point
-        int slow = nums[0];
-        int fast = nums[nums[0]];
-        while (slow != fast) {
+        int slow = 0, fast = 0;
+        while (true) {
             slow = nums[slow]; // 1 step
             fast = nums[nums[fast]]; // 2 steps
+            if (slow == fast) break;
         }
         // 2. find the cycle head
         int head = 0;
