@@ -41,7 +41,9 @@ insert: dp[i, j-1] + 1 // insert word2[j-1] to word1 -> remaining needs to match
 remove: dp[i-1, j] + 1 // remove word1[i-1] from word1 -> remaining needs to match word1[0~i-2] & word2[0~j-1]
 replace: dp[i-1, j-1] + 1 // replace word1[i-1] with word2[j-1] -> remaining needs to match word1[0~i-2] & word2[0~j-2]
 
-Implementation: Bottom up (double loops)
+Implementation:
+Bottom up (double loops)
 
-Memorization:dp size: 2 * word2.size()+1
+Memorization:
+dp size: 2 * word2.size()+1
 */
