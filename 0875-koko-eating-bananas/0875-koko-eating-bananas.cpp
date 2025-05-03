@@ -1,11 +1,12 @@
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int possibleMax = 0;
+        int possibleMax = 0, possibleMin = 0;
         for (int pile : piles) {
             possibleMax = max(possibleMax, pile);
         }
-        int left = 1, right = possibleMax;
+        possibleMin = possibleMax / h;
+        int left = possibleMin, right = possibleMax;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             int hours = calculateHours(piles, mid, h);
