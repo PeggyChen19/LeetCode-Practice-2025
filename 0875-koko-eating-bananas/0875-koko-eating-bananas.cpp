@@ -1,12 +1,11 @@
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int possibleMax = 0, possibleMin = 0;
+        int possibleMax = 0;
         for (int pile : piles) {
             possibleMax = max(possibleMax, pile);
         }
-        possibleMin = possibleMax / h;
-        int left = possibleMin, right = possibleMax;
+        int left = 1, right = possibleMax;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             int hours = calculateHours(piles, mid, h);
@@ -18,7 +17,7 @@ public:
         }
         return left;
     }
-    int calculateHours(vector<int>& piles, int k, int h) {
+    int calculateHours(vector<int>& piles, int& k, int& h) {
         int hours = 0;
         for (int pile : piles) {
             hours += (pile / k + (pile % k != 0)); // round up
@@ -31,7 +30,6 @@ public:
 };
 /*
 length <= h
-for each pile, at least needs one hour to eat
 possible ans range: 1 ~ max(piles)
 in this range, we can calculate the needed hours
 use binary search to speed up
@@ -43,7 +41,6 @@ we want to find the first h
 
 Time Complexity: O(nlog(max(piles)))
 
-can we divide and conquer this problem?
-there is no optimal substructure
-
+Can we divide and conquer this problem?
+No, there is no optimal substructure
 */
