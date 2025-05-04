@@ -1,17 +1,17 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int empty_pre = 0, bought_pre = -prices[0], cooldown_pre = 0;
-        int empty_cur, bought_cur, cooldown_cur;
+        int empty = 0, bought = -prices[0], cooldown = INT_MIN;
+        int empty_new, bought_new, cooldown_new;
         for (int i = 1; i < prices.size(); i++) {
-            empty_cur = max(empty_pre, cooldown_pre);
-            bought_cur = max(bought_pre, empty_pre - prices[i]);
-            cooldown_cur = bought_pre + prices[i];
-            swap(empty_cur, empty_pre);
-            swap(bought_cur, bought_pre);
-            swap(cooldown_cur, cooldown_pre);
+            empty_new = max(empty, cooldown);
+            bought_new = max(bought, empty - prices[i]);
+            cooldown_new = bought + prices[i];
+            empty = empty_new;
+            bought = bought_new;
+            cooldown = cooldown_new;
         }
-        return max(empty_pre, cooldown_pre);
+        return max(empty, cooldown);
     }
 };
 /*
@@ -36,5 +36,5 @@ Implement: Bottom-up
 Memorization & Base Case:
 empty_pre = 0
 bought_pre = -price[0]
-cooldown_pre = 0
+cooldown_pre = INT_MIN // invalid status
 */
