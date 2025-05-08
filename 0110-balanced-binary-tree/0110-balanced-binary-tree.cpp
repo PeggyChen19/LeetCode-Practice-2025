@@ -12,7 +12,7 @@
 class Solution {
 public:
 	bool isBalanced(TreeNode* root) {
-		return (calculateDepth(root) == -1) ? false : true;
+		return (calculateDepth(root) != -1);
 	}
 private:
 	int calculateDepth(TreeNode* node) {
