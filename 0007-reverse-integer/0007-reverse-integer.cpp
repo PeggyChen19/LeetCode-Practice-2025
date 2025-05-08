@@ -21,9 +21,9 @@ How to handle overflow? Check it before calculating
 
 int ans = 0
 while (input) {
-	int last_digit = input % 10 // get the last digit
+    int last_digit = input % 10 // get the last digit
     input /= 10 // remove the last digit
-	ans *= 10 // reserve the last digit place for the incoming digit
+    ans *= 10 // reserve the last digit place for the incoming digit
     ans += last_digit
 }
 return ans
