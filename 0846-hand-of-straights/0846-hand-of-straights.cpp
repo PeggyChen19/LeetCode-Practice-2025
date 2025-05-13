@@ -10,12 +10,11 @@ public:
 		}
 		for (auto& [num, count] : frequency) {
 			if (count > 0) {
-				int min_count = count;
-				for (int i = 0; i < groupSize; i++) { // the whole group must have at least min count
-					if (frequency[num + i] < min_count) {
+				for (int i = 1; i < groupSize; i++) { // the whole group must have at least count
+					if (frequency[num + i] < count) {
 						return false;
 					} else {
-						frequency[num + i] -= min_count;
+						frequency[num + i] -= count;
 					}
 				}
 			}
