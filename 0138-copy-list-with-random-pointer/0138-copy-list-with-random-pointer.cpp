@@ -16,21 +16,18 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if (head == nullptr) {
-            return head;
+        if (!head) {
+            return nullptr;
         }
-        // Step 1: Create new node just behind the original node
+        // Step 1: Create new nodes: A->A'->B->B'
         Node* cur = head;
         while (cur) {
-            Node* newNode = new Node(cur->val);
-            Node* oldNext = cur->next;
-            cur->next = newNode;
-            newNode->next = oldNext;
-            cur = oldNext;
+            Node* copy = new Node(cur->val);
+            copy->next = cur->next;
+            cur->next = copy;
+            cur = copy->next;
         }
-        Node* dummyNewHead = new Node(0);
-        dummyNewHead->next = head->next; // real head of new linked list
-        // Step 2: Set up new random pointers
+        // Step 2: Assign random pointers
         cur = head;
         while (cur && cur->next) {
             if (cur->random) {
@@ -38,14 +35,15 @@ public:
             }
             cur = cur->next->next;
         }
-        // Step 3: Extract new nodes to be an independent linked list
+        // Step 3: Separate the copied from the original
+        Node* newHead = head->next;
         cur = head;
         while (cur && cur->next) {
             Node* originalNext = cur->next;
             cur->next = cur->next->next;
             cur = originalNext;
         }
-        return dummyNewHead->next;
+        return newHead;
     }
 };
 /*
@@ -54,10 +52,8 @@ how about random? how can we know the relationship between old and new node?
 brute force: use a vector to record the new node pointer in order
 
 Improvement: Costant Space -> interweaving
-1. Create new node just behind the original node
-   A -> A' -> B -> B' -> C -> C'
-2. Set up new random pointers (based on the relationship "orignal --next-->
-new")
+1. Create new nodes: A->A'->B->B'
+2. Assign random pointers (based on the relationship "orignal --next--> new")
    -> we can know the new random target based on original node
-3. Extract new nodes to be an independent linked list
+3. Separate the copied from the original
 */
