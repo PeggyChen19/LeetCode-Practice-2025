@@ -2,16 +2,17 @@ class Solution {
 public:
     double myPow(double x, int n) {
         double result = 1.0;
-        if (n < 0) {
+        long num = n;
+        if (num < 0) {
             x = 1 / x;
-            n = -n;
+            num = -num;
         }
-        while (n) { // process n bit by bit (2 based)
-            if (n % 2 == 1) { // the least significant bit is 1
+        while (num) { // process n bit by bit (2 based)
+            if (num % 2 == 1) { // the least significant bit is 1
                 result *= x; // include this power of x to the result
             }
             x *= x; // square x to represent the next power of two
-            n = n >> 1; // divide by 2
+            num = num >> 1; // divide by 2
         }
         return result;
     }
