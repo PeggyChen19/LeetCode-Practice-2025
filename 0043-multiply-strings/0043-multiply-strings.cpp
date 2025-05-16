@@ -1,9 +1,6 @@
 class Solution {
 public:
     string multiply(string num1, string num2) {
-        if (num1 == "0" || num2 == "0") {
-            return "0";
-        }
         int len1 = num1.size(), len2 = num2.size();
         vector<int> result(len1 + len2, 0);
         for (int i = len1-1; i >= 0; i--) {
