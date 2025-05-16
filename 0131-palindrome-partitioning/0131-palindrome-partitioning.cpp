@@ -5,37 +5,37 @@ public:
         vector<vector<int>> mem(n, vector<int>(n, -1)); // -1:unknown, 0:false, 1:true
         vector<string> partitions;
         vector<vector<string>> result;
-        backtracking(0, s, partition, result, mem);
+        backtracking(0, s, partitions, result, mem);
         return result;
     }
 private:
-    void backtracking(int start, const string& s, vector<string>& partitions, 
+    void backtracking(int start, string& s, vector<string>& partitions, 
                       vector<vector<string>>& result, vector<vector<int>>& mem) {
         if (start == s.size()) {
-            result.push_back(curPartition);
+            result.push_back(partitions);
             return;
         }
         for (int end = start; end < s.size(); end++) {
-            if (isPalindrome(start, end, s, palindrome)) {
+            if (isPalindrome(start, end, s, mem)) {
                 partitions.push_back(s.substr(start, end - start + 1));
-                backtracking(end + 1, s, partition, result, palindrome);
+                backtracking(end + 1, s, partitions, result, mem);
                 partitions.pop_back();
             }
         }
     }
-    bool isPalindrome(int start, int end, string& s, vector<vector<int>>& palindrome) {
-        if (palindrome[start][end] == 1) return true;
-        if (palindrome[start][end] == 0) return false;
+    bool isPalindrome(int start, int end, string& s, vector<vector<int>>& mem) {
+        if (mem[start][end] == 1) return true;
+        if (mem[start][end] == 0) return false;
         int left = start, right = end;
         while (left < right) {
             if (s[left] != s[right]) {
-                palindrome[start][end] = 0;
+                mem[start][end] = 0;
                 return false;
             }
             left++;
             right--;
         }
-        palindrome[start][end] = 1;
+        mem[start][end] = 1;
         return true;
     }
 };
