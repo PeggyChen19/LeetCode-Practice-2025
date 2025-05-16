@@ -1,7 +1,7 @@
 class Solution {
 public:
     string multiply(string num1, string num2) {
-        if (nums1 == "0" || nums2 == "0") {
+        if (num1 == "0" || num2 == "0") {
             return "0";
         }
         int len1 = num1.size(), len2 = num2.size();
