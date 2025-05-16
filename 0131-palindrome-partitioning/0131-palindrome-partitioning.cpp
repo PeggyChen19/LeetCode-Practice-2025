@@ -24,19 +24,10 @@ private:
         }
     }
     bool isPalindrome(int start, int end, string& s, vector<vector<int>>& mem) {
-        if (mem[start][end] == 1) return true;
-        if (mem[start][end] == 0) return false;
-        int left = start, right = end;
-        while (left < right) {
-            if (s[left] != s[right]) {
-                mem[start][end] = 0;
-                return false;
-            }
-            left++;
-            right--;
-        }
-        mem[start][end] = 1;
-        return true;
+        if (start >= end) return true;
+        if (mem[start][end] != -1) return mem[start][end];
+        mem[start][end] = (s[start] == s[end] && isPalindrome(start + 1, end - 1, s, mem)) ? 1 : 0;
+        return mem[start][end];
     }
 };
 /*
