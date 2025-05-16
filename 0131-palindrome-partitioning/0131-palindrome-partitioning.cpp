@@ -1,38 +1,39 @@
 class Solution {
 public:
     vector<vector<string>> partition(string s) {
-        vector<vector<int>> palindrome(s.size(), vector<int>(s.size(), -1)); // -1:unknown, 0:false, 1:true
-        vector<string> curPartition;
+        int n = s.size();
+        vector<vector<int>> mem(n, vector<int>(n, -1)); // -1:unknown, 0:false, 1:true
+        vector<string> partitions;
         vector<vector<string>> result;
-        backtracking(0, s, curPartition, result, palindrome);
+        backtracking(0, s, partition, result, mem);
         return result;
     }
 private:
-    void backtracking(int start, string& s, vector<string>& curPartition, vector<vector<string>>& result, vector<vector<int>>& palindrome) {
+    void backtracking(int start, const string& s, vector<string>& partitions, 
+                      vector<vector<string>>& result, vector<vector<int>>& mem) {
         if (start == s.size()) {
             result.push_back(curPartition);
             return;
         }
-        for (int i = start; i < s.size(); i++) {
-            if (isPalindrome(start, i, s, palindrome)) {
-                curPartition.push_back(s.substr(start, i - start + 1));
-                backtracking(i + 1, s, curPartition, result, palindrome);
-                curPartition.pop_back();
+        for (int end = start; end < s.size(); end++) {
+            if (isPalindrome(start, end, s, palindrome)) {
+                partitions.push_back(s.substr(start, end - start + 1));
+                backtracking(end + 1, s, partition, result, palindrome);
+                partitions.pop_back();
             }
         }
     }
     bool isPalindrome(int start, int end, string& s, vector<vector<int>>& palindrome) {
         if (palindrome[start][end] == 1) return true;
         if (palindrome[start][end] == 0) return false;
-        int left = (start + end) / 2;
-        int right = (start + end) / 2 + (start + end) % 2;
-        while (start <= left && right <= end) {
+        int left = start, right = end;
+        while (left < right) {
             if (s[left] != s[right]) {
                 palindrome[start][end] = 0;
                 return false;
             }
-            left--;
-            right++;
+            left++;
+            right--;
         }
         palindrome[start][end] = 1;
         return true;
