@@ -19,7 +19,7 @@ private:
         if (!node) {
             return 0;
         }
-        int goodNode = (node->val >= curMax);
+        int goodNode = (node->val >= curMax) ? 1 : 0;
         curMax = max(node->val, curMax);
         return goodNode + inorder(node->left, curMax) + inorder(node->right, curMax);
     }
