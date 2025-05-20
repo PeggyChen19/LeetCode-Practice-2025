@@ -14,18 +14,12 @@ public:
             dfs(board, 0, j);
             dfs(board, n - 1, j);
         }
-        // O -> X
+        // O -> X and E -> O
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == 'O') {
                     board[i][j] = 'X';
-                }
-            }
-        }
-        // E -> O
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (board[i][j] == 'E') {
+                } else if (board[i][j] == 'E') {
                     board[i][j] = 'O';
                 }
             }
@@ -33,16 +27,12 @@ public:
     }
 private:
     void dfs(vector<vector<char>>& board, int i, int j) {
-        if (board[i][j] != 'O') {
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] != 'O') {
             return;
         }
         board[i][j] = 'E';
         for (auto& [dx, dy] : directions) {
-            int x = i + dx;
-            int y = j + dy;
-            if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size()) {
-                dfs(board, x, y);
-            }
+            dfs(board, i + dx, j + dy);
         }
     }
 };
@@ -52,7 +42,7 @@ If "O" region is surrounded by "X" (not edges) -> become "X"
 Brute-Force:
 When encounting an "O"
 if there are at least one edge -> ignore
-if there are at least one "O" connected -> DFS/BFS to find the region
+if there are at least one "O" connected -> DFS/BFS to find the whole region
 else -> mark it as "X"
 --> Complicated
 
