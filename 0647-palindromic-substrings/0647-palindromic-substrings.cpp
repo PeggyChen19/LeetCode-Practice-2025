@@ -19,7 +19,6 @@ private:
         }
         return count;
     }
-
 };
 /*
 for all char in s
