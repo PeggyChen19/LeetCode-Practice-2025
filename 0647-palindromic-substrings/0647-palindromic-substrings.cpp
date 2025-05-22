@@ -1,31 +1,34 @@
 class Solution {
 public:
     int countSubstrings(string s) {
-        int ans = 0;
-        for (int i = 0; i < s.size(); i++) {
-            int odd = expandFromCenter(s, i, i);
-            int even = expandFromCenter(s, i, i+1);
-            ans += odd + even;
+        int result = 0, n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, false));
+        for (int end = 0; end < n; end++) {
+            for (int start = 0; start <= end; start++) {
+                if (s[start] == s[end] && ((end - start + 1 <= 2) || dp[start+1][end-1])) {
+                    dp[start][end] = true;
+                    result++;
+                }
+            }
         }
-        return ans;
-    }
-private:
-    int expandFromCenter(string s, int left, int right) {
-        int count = 0;
-        while (left >= 0 && right < s.size() && s[left] == s[right]) {
-            left--;
-            right++;
-            count++;
-        }
-        return count;
+        return result;
     }
 };
 /*
-for all char in s
-    use char as odd substring center
-    expand and record count
-    use char & char+1 as even substring center
-    expand and record count
+Number of palindromic substrings
+Substring -> DP
+States: index, curAns
+int result = 0
+for cur_char in string
+    for (i = 0 ~ cur_char-1)
+        if (panlindromic(i, cur))
+            result++
+            update dp
+
+Memorization:
+vector<vector<bool>> dp; // dp[i][j] is panlindromic or not
+
+Complexity:
 Time: O(n^2)
-Space: O(1)
+Space: O(n^2)
 */
