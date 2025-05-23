@@ -1,10 +1,10 @@
 class TimeMap {
 public:
-    unordered_map<string, vector<pair<string, int>>> record;
+    unordered_map<string, vector<pair<int, string>>> record;
     TimeMap() {}
     
     void set(string key, string value, int timestamp) {
-        record[key].push_back({value, timestamp});
+        record[key].push_back({timestamp, value});
     }
     
     string get(string key, int timestamp) {
@@ -12,15 +12,15 @@ public:
         return binarySearch(record[key], timestamp);
     }
 private:
-    string binarySearch(vector<pair<string, int>>& vec, int target) {
+    string binarySearch(vector<pair<int, string>>& vec, int target) {
         int left = 0, right = vec.size() - 1;
         string result = "";
         while (left <= right) {
             int mid = left + (right - left) / 2;
-            auto [val, time] = vec[mid];
+            auto [time, val] = vec[mid];
             if (time == target) {
                 return val;
-            } else if (time < target) { // go right
+            } else if (time <= target) { // go right
                 result = val; // the candidate <= target
                 left = mid + 1; // look for larger candidate
             } else { // go left
