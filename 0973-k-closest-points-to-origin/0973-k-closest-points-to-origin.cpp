@@ -1,6 +1,6 @@
 class Solution {
 private:
-    int quickSelect(int left, int right, vector<pair<int, vector<int>>>& dist) {
+    int partition(int left, int right, vector<pair<int, vector<int>>>& dist) {
         int pivot = dist[left].first, l = left + 1, r = right;
         while (l <= r) {
             if (dist[l].first > pivot && dist[r].first < pivot) {
@@ -23,10 +23,10 @@ public:
         }
         int left = 0, right = points.size() - 1;
         while (true) {
-            int pivotInd = quickSelect(left, right, dist);
-            if (pivotInd == k) {
+            int pivotInd = partition(left, right, dist);
+            if (pivotInd == k - 1) {
                 break;
-            } else if (pivotInd > k) { // go left
+            } else if (pivotInd > k - 1) { // go left
                 right = pivotInd - 1;
             } else { // go right
                 left = pivotInd + 1;
