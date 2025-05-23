@@ -18,7 +18,9 @@ private:
         while (left <= right) {
             int mid = left + (right - left) / 2;
             auto [val, time] = vec[mid];
-            if (time <= target) { // go right
+            if (time == target) {
+                return val;
+            } else if (time < target) { // go right
                 result = val; // the candidate <= target
                 left = mid + 1; // look for larger candidate
             } else { // go left
