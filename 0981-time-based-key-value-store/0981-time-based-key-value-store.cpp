@@ -17,7 +17,7 @@ private:
         string result = "";
         while (left <= right) {
             int mid = left + (right - left) / 2;
-            auto [time, val] = vec[mid];
+            auto& [time, val] = vec[mid];
             if (time == target) {
                 return val;
             } else if (time <= target) { // go right
