@@ -3,8 +3,12 @@ public:
     int jump(vector<int>& nums) {
         int i = 0, visited = 0, count = 0, n = nums.size();
         while (i < n - 1) { // not reach the end
+            count++;
             int farthestPoint = i, farthest = 0;
             int reachableRange = min(i + nums[i], n - 1);
+            if (reachableRange >= n - 1) {
+                break;
+            }
             for (int step = visited + 1; step <= reachableRange; step++) {
                 if (step + nums[step] > farthest) {
                     farthestPoint = step;
@@ -12,7 +16,6 @@ public:
                 }
             }
             i = farthestPoint;
-            count++;
             visited = reachableRange;
         }
         return count;
