@@ -18,7 +18,7 @@ public:
 		return binarySearch(x);
 	}
 private:
-	int binarySearch(int x) {
+	int binarySearch(int& x) {
 		int left = 0, right = wRange.size();
 		while (left <= right) {
 			int mid = left + (right - left) / 2;
