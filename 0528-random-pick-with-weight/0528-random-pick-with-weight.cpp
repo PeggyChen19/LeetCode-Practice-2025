@@ -1,37 +1,36 @@
 class Solution {
 public:
-	int sum;
-	vector<int> wRange; // 1 ~ sum
+	int totalSum;
+	vector<int> prefixSums; // 1 ~ totalSum
+
 	Solution(vector<int>& w) {
         srand(time(NULL));
-		int cur = 0;
+		totalSum = 0;
 		for (int i = 0; i < w.size(); i++) {
-			cur += w[i];
-			wRange.push_back(cur);
+			totalSum += w[i];
+			prefixSums.push_back(totalSum);
 		}
-		sum = cur;
 	}
 	
 	int pickIndex() {
-		int min = 1, max = sum; // the same range as wRange
-		int x = rand() % (max - min + 1) + min;
-		return binarySearch(x);
+		int min = 1, max = totalSum; // the same range as prefixSums
+		int target = rand() % (max - min + 1) + min;
+		return binarySearch(target);
 	}
 private:
-	int binarySearch(int& x) {
-		int left = 0, right = wRange.size();
+	int binarySearch(int& target) { // find the index <= target
+		int left = 0, right = prefixSums.size() - 1;
+        int result = -1;
 		while (left <= right) {
 			int mid = left + (right - left) / 2;
-			int preWeight = (mid == 0) ? 0 : wRange[mid - 1];
-			if (x > preWeight && x <= wRange[mid]) { // valid
-				return mid;
-			} else if (x <= preWeight) { // go left
-				right = mid - 1;
+			if (target <= prefixSums[mid]) { // go left
+                result = mid; // probably valid -> update result
+                right = mid - 1;
 			} else { // go right
-				left = mid + 1;
-			}
+                left = mid + 1;
+            }
 		}
-		return -1; // should be impossible
+		return result;
 	}
 };
 
