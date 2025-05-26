@@ -17,18 +17,15 @@ public:
             }
         }
         unordered_map<int, set<string>> merged; // roots of disjoint set: emails
-        for (int i = 0; i < n; i++) {
-            int root = find(i, parent);
-            for (int j = 1; j < accounts[i].size(); j++) {
-                merged[root].insert(accounts[i][j]);
-            }
+        for (auto& [email, idx] : emails) {
+            int root = find(idx, parent);
+            merged[root].insert(email);
         }
         vector<vector<string>> results;
-        for (auto& iter : merged) {
-            vector<string> content;
-            content.push_back(accounts[iter.first][0]); // name
-            for (auto& iter2 : merged[iter.first]) {
-                content.push_back(iter2); // emails
+        for (auto& [root, emails] : merged) {
+            vector<string> content{accounts[root][0]}; // name
+            for (auto& iter : merged[root]) {
+                content.push_back(iter); // emails
             }
             results.push_back(content);
         }
@@ -36,10 +33,9 @@ public:
     }
 private:
     int find(int a, vector<int>& parent) {
-        if (parent[a] == a) {
-            return a;
+        if (parent[a] != a) {
+            parent[a] = find(parent[a], parent);
         }
-        parent[a] = find(parent[a], parent);
         return parent[a];
     }
     void unionSets(int a, int b, vector<int>& rank, vector<int>& parent) {
