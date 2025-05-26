@@ -17,6 +17,7 @@ public:
 		int target = rand() % (max - min + 1) + min;
 		return binarySearch(target);
 	}
+
 private:
 	int binarySearch(int& target) { // find the index <= target
 		int left = 0, right = prefixSums.size() - 1;
