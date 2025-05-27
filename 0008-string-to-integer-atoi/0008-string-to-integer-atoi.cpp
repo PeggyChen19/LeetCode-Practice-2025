@@ -1,35 +1,27 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        bool positive = true;
-        int i = 0, n = s.size(), result = 0;
-        int maxLimit = INT_MAX / 10, minLimit = INT_MIN / 10;
-        while (i < n && s[i] == ' ') {
-            i++;
-        }
+        int i = 0, n = s.size();
+        while (i < n && s[i] == ' ') i++;  // skip leading spaces
+
+        int sign = 1;
         if (i < n && (s[i] == '+' || s[i] == '-')) {
-            if (s[i] == '-') positive = false;
+            sign = (s[i] == '-') ? -1 : 1;
             i++;
         }
-        while (i < n && s[i] >= '0' && s[i] <= '9') {
-            if (positive && (result > maxLimit || (result == maxLimit && s[i] - '0' >= 7))) {
-                return INT_MAX;
+
+        int result = 0;
+        while (i < n && isdigit(s[i])) {
+            int digit = s[i] - '0';
+
+            if (result > (INT_MAX - digit) / 10) {
+                return sign == 1 ? INT_MAX : INT_MIN;
             }
-            if (!positive && (-result < minLimit || (-result == minLimit && s[i] - '0' >= 8))) {
-                return INT_MIN;
-            }
-            result *= 10;
-            result += (s[i] - '0');
+
+            result = result * 10 + digit;
             i++;
         }
-        return positive ? result : -result;
+
+        return sign * result;
     }
 };
-/*
-Procedure:
-1. Ignore leading whitespace
-2. Determine Signedness (+ / -)
-3. Ignore leading zero
-4. Read numbers unitl encountering non-digit
-    - Round to 32 bits range
-*/
