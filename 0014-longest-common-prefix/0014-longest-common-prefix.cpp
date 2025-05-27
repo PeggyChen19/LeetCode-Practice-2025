@@ -9,10 +9,11 @@ public:
             for (int j = 0; j <= commonInd; j++) {
                 if (strs[0][j] != strs[i][j]) {
                     commonInd = j - 1;
+                    break;
                 }
             }
         }
-        return strs[0].substr(0, commonInd + 1);
+        return strs[0].substr(strs[0].begin(), commonInd + 1);
     }
 };
 /*
