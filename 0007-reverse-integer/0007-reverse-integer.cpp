@@ -6,8 +6,8 @@ public:
             int last_digit = x % 10; // get the last digit
             x /= 10; // remove the last digit
             // overflow check
-            if (ans > INT_MAX / 10 || (ans == INT_MAX / 10 && last_digit > 7)) return 0;
-            if (ans < INT_MIN / 10 || (ans == INT_MIN / 10 && last_digit < -8)) return 0;
+            if (last_digit > 0 && ans > (INT_MAX - last_digit) / 10) return 0;
+            if (last_digit < 0 && ans < (INT_MIN - last_digit) / 10) return 0;
             ans *= 10; // reserve the last digit place for the incoming digit
             ans += last_digit;
         }
