@@ -11,9 +11,6 @@ public:
             if (s[i] == '-') positive = false;
             i++;
         }
-        while (i < n && s[i] == '0') {
-            i++;
-        }
         while (i < n && s[i] >= '0' && s[i] <= '9') {
             if (positive && (result > maxLimit || (result == maxLimit && s[i] - '0' >= 7))) {
                 return INT_MAX;
