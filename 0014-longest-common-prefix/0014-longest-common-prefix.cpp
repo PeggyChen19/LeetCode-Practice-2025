@@ -13,7 +13,7 @@ public:
                 }
             }
         }
-        return strs[0].substr(strs[0].begin(), commonInd + 1);
+        return strs[0].substr(0, commonInd + 1);
     }
 };
 /*
