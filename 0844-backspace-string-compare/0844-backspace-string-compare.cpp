@@ -1,23 +1,38 @@
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        stack<char> sSt;
-        stack<char> tSt;
-        process(s, sSt);
-        process(t, tSt);
-        return sSt == tSt;
+        int sInd = s.size() - 1;
+        int tInd = t.size() - 1;
+        while (sInd >= 0 || tInd >= 0) {
+            removeChar(s, sInd);
+            removeChar(t, tInd);
+            if (sInd >= 0 && tInd >= 0 && s[sInd] != t[tInd]) {
+                return false;
+            } else if ((sInd >= 0 && tInd < 0) || (sInd < 0 && tInd >= 0)) {
+                return false;
+            }
+            sInd--;
+            tInd--;
+        }
+        return (sInd == tInd);
     }
 private:
-    void process(string str, stack<char>& st) {
-        for (char& ch : str) {
-            if (ch == '#' && !st.empty()) {
-                st.pop();
-            } else if (ch != '#'){
-                st.push(ch);
+    void removeChar(string& str, int& ind) {
+        int del = 0;
+        while (ind >= 0) {
+            if (str[ind] == '#') {
+                del++;
+                ind--;
+            } else if(del > 0) {
+                del--;
+                ind--;
+            } else {
+                break; // remain this char
             }
         }
     }
 };
 /*
-Use stack: # means stack.pop() when not empty
+Go through s & t from end to begin
+Record the number of # and ignore corresponding element
 */
