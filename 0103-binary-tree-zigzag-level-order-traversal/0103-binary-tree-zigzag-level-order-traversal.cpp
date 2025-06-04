@@ -8,16 +8,14 @@ public:
         q.push(root);
         while (!q.empty()) {
             int size = q.size();
-            vector<int> layerNodes;
+            vector<int> layerNodes(size);
             for (int i = 0; i < size; i++) { // the same layer
                 TreeNode* cur = q.front();
                 q.pop();
-                layerNodes.push_back(cur->val);
+                int ind = reversed ? size - 1 - i : i;
+                layerNodes[ind] = cur->val;
                 if (cur->left) q.push(cur->left);
                 if (cur->right) q.push(cur->right);
-            }
-            if (reversed) {
-                reverse(layerNodes.begin(), layerNodes.end());
             }
             reversed = !reversed;
             results.push_back(layerNodes);
@@ -28,4 +26,5 @@ public:
 /*
 We need to traverse layer by layer
 BFS based (root -> left -> right), use queue (reverse for odd layer)
+Improvement: Not use reverse
 */
