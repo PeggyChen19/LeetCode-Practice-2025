@@ -10,7 +10,7 @@ public:
         }
         int start = 0;
         for (int end = 0; end < s.size(); end++) {
-            if (counts[s[end]] > 0) {
+            if (counts[s[end]] > 0) { // will add matched char into window
                 unmatched--;
             }
             counts[s[end]]--;
@@ -18,7 +18,7 @@ public:
                 if (unmatched == 0) {
                     results.push_back(start);
                 }
-                if (counts[s[start]] >= 0) {
+                if (counts[s[start]] >= 0) { // will remove matched char from window
                     unmatched++;
                 }
                 counts[s[start]]++;
