@@ -26,5 +26,5 @@ public:
 /*
 We need to traverse layer by layer
 BFS based (root -> left -> right), use queue (reverse for odd layer)
-Improvement: Not use reverse
+Improvement: Not use reverse -> utilize the size of each layer
 */
