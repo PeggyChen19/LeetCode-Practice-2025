@@ -1,21 +1,17 @@
 class Solution {
 public:
     int longestPalindrome(string s) {
+        int oddCount = 0;
         unordered_map<char, int> counts;
         for (auto& ch : s) {
             counts[ch]++;
-        }
-        int result = 0;
-        bool hasOdd = false;
-        for (auto& [ch , count] : counts) {
-            result += count;
-            if (count % 2) { // odd
-                hasOdd = true;
-                result--;
+            if (counts[ch] % 2) {
+                oddCount++;
+            } else {
+                oddCount--;
             }
         }
-        result += hasOdd;
-        return result;
+        return s.size() - oddCount + 1;
     }
 };
 /*
