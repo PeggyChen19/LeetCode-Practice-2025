@@ -11,7 +11,8 @@ public:
                 oddCount--;
             }
         }
-        return s.size() - oddCount + 1;
+
+        return s.size() - oddCount + (oddCount > 0);
     }
 };
 /*
