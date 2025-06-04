@@ -22,5 +22,5 @@ public:
 Improvement: We can directly find the start index of result use binary search
 Possible start index range: [0, arr.size - k]
 abs(x - arr[mid]) > abs(x - arr[mid+k]): go right
-else: go left ()
+else: go left & update ans (might include possible ans)
 */
