@@ -27,16 +27,19 @@ public:
 };
 /*
 Only non-negative integers, +, -, *, /, space(ignore it)
-No overflow
+No overflow problem
 -----
-* and / before + and -
+Key: * and / before + and -
+
 Scan the string from left to right
-Record some value and operator:
-result, subResult, preOper, curVal
+Original solution: use stack, but it need O(n) space
+Improvement with O(1) space: use variables "result" & "subResult"(the same function as stack.top)
+Also store curVal & preOper (the oper before curVal)
 (+) 1 + 2 * 3
-if preOper == * or /
-    subResult *= or /= curVal // calculate directly 
-if preOper == + or -
-    result += subResult // update the result and clear subResult for the future calculate
+calcualte curVal until meeting non-digit
+if preOper == * or / -> calculate with subResult
+    subResult *= or /= curVal
+if preOper == + or - -> update the result and clear subResult for the future calculate
+    result += subResult
     subResult = +-curVal
 */
