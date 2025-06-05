@@ -2,25 +2,25 @@ class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
         vector<int> result;
-        for (auto& item : asteroids) {
-            handleNewItem(result, item);
+        for (auto& a : asteroids) {
+            while (true) {
+                int back = result.empty() ? 0 : result.back();
+                if (back != 0 && back > 0 && a < 0) { // collision
+                    if (back < -a) {
+                        result.pop_back();
+                    } else if (back == -a) {
+                        result.pop_back();
+                        break;
+                    } else {
+                        break; // ignore new a
+                    }
+                } else {
+                    result.push_back(a);
+                    break;
+                }
+            }
         }
         return result;
-    }
-private:
-    void handleNewItem(vector<int>& result, int item) {
-        int back = result.empty() ? 0 : result.back();
-        if (back != 0 && back > 0 && item < 0) { // collision
-            if (back < -item) {
-                result.pop_back();
-                handleNewItem(result, item);
-            } else if (back == -item) {
-                result.pop_back();
-            }
-            // else if (back > -item) -> ignore new item
-        } else {
-            result.push_back(item);
-        }
     }
 };
 /*
