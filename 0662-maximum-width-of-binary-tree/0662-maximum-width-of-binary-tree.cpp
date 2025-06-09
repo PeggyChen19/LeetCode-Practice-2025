@@ -3,10 +3,11 @@ public:
     int widthOfBinaryTree(TreeNode* root) {
         int result = 0;
         if (!root) return result;
-        queue<pair<TreeNode*, long>> q;
+        queue<pair<TreeNode*, unsigned long long>> q;
         q.push({root, 1});
         while (!q.empty()) {
-            int size = q.size(), left, right;
+            int size = q.size();
+            unsigned long long left, right;
             for (int i = 0; i < size; i++) {
                 auto [node, ind] = q.front();
                 q.pop();
@@ -15,7 +16,7 @@ public:
                 if (node->left) q.push({node->left, ind * 2 - 1});
                 if (node->right) q.push({node->right, ind * 2});
             }
-            result = max(result, right - left + 1);
+            result = max(result, (int)(right - left + 1));
         }
         return result;
     }
