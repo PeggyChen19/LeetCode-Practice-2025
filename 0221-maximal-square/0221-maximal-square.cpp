@@ -3,18 +3,20 @@ public:
     int maximalSquare(vector<vector<char>>& matrix) {
         int result = 0;
         int n = matrix.size(), m = matrix[0].size();
-        vector<vector<int>> dp(2, vector<int>(m, 0));
-		int pre = 0, cur = 1;
+        vector<int> dp(m + 1, 0);
+        int pre = 0;
         for (int i = 0; i < n; i++) {
+            pre = 0;
             for (int j = 0; j < m; j++) {
-				if (j == 0) {
-					dp[cur][j] = (matrix[i][j] == '1') ? 1 : 0;
-				} else if (matrix[i][j] == '1') {
-					dp[cur][j] = min(dp[pre][j - 1], min(dp[cur][j - 1], dp[pre][j])) + 1;
+                int tmp = dp[j + 1];
+                if (matrix[i][j] == '1') {
+                    dp[j + 1] = min(pre, min(dp[j], dp[j + 1])) + 1;
+                    result = max(result, dp[j + 1]);
+                } else {
+                    dp[j + 1] = 0;
                 }
-				result = max(result, dp[cur][j]);
+                pre = tmp;
             }
-			swap(pre, cur);
         }
         return result * result;
     }
@@ -29,7 +31,7 @@ Base Case:
 dp[i][0] = 0 / 1
 dp[0][j] = 0 / 1
 Space Optimization:
-Change to 2*m DP
+Change to 1*m array
 
 0 1 1 1
 1 0 1 1
