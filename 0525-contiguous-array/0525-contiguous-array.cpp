@@ -18,7 +18,7 @@ public:
 /*
 Subarray -> Sliding Window / DP / Prefix Sum
 Not Sliding Window -> can't decide when to move left
-Not DP -> ??
+Not DP -> no optimal substructure -> 子問題的結果無法組合成大問題的解
 Target: find the max subarray where sum == 0 (replace 0 to -1)
 interval sum = curPrefixSum - prefixSum = 0
 
