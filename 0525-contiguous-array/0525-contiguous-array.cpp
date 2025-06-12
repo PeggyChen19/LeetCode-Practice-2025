@@ -2,23 +2,20 @@ class Solution {
 public:
     int findMaxLength(vector<int>& nums) {
         int maxLen = 0, curPrefixSum = 0;
-        unordered_map<int, int> firstPrefixSum; // prefixSum, firstInd
-        firstPrefixSum[curPrefixSum] = -1;
+        unordered_map<int, int> prefixSum; // prefixSum, firstInd
+        prefixSum[0] = -1;
         for (int i = 0; i < nums.size(); i++) {
             curPrefixSum += (nums[i] == 1) ? 1: -1;
-            if (firstPrefixSum.count(curPrefixSum)) {
-                maxLen = max(maxLen, i - firstPrefixSum[curPrefixSum]);
-            }
-            if (!firstPrefixSum.count(curPrefixSum)) {
-                firstPrefixSum[curPrefixSum] = i;
+            if (prefixSum.count(curPrefixSum)) { // the prefixSum has existed
+                maxLen = max(maxLen, i - prefixSum[curPrefixSum]); // update maxLen
+            } else {
+                prefixSum[curPrefixSum] = i; // record the new prefixSum
             }
         }
         return maxLen;
     }
 };
 /*
--1 -1  1  1  -1 
--1 -2 -1  0  -1
 Subarray -> Sliding Window / DP / Prefix Sum
 Not Sliding Window -> can't decide when to move left
 Not DP -> ??
@@ -29,6 +26,6 @@ int maxLen = 0
 unordered_map<int, int> firstPrefixSum // prefixSum, firstInd
 go through nums
     record curPrefixSum
-    find -curprefixSum from firstPrefixSum
+    find curprefixSum from firstPrefixSum
     update firstPrefixSum
 */
