@@ -3,6 +3,7 @@ public:
     int minCostConnectPoints(vector<vector<int>>& points) {
         int total = 0, n = points.size();
         vector<int> visited(n, false);
+        vector<int> minDist(n, INT_MAX); // min dist from a node to any nodes in MST
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap; // weight, node
         minHeap.push({0, 0});
         while (!minHeap.empty()) {
@@ -14,7 +15,10 @@ public:
             for (int i = 0; i < n; i++) {
                 if (visited[i]) continue;
                 int dist = abs(points[node][0] - points[i][0]) + abs(points[node][1] - points[i][1]);
-                minHeap.push({dist, i});
+                if (dist < minDist[i]) {
+                    minDist[i] = dist;
+                    minHeap.push({dist, i});
+                }
             }
         }
         return total;
@@ -28,10 +32,11 @@ Dense Graph -> Prim's algorithm
 
 Build visited vector
 Build min heap
+Build minDist vector // min dist from a node to any nodes in MST
 push the first point into minHeap
 while !minHeap.empty()
-    minHeap.top
-    check if top node is visited or not
+    retrieve minHeap.top
+    check if top is visited or not
     update MST
     for all neighbors
         push into minHeap if not visited
