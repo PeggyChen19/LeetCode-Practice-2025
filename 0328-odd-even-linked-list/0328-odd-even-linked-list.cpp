@@ -5,10 +5,9 @@ public:
         ListNode* oddCur = head;
         ListNode* evenHead = head->next;
         ListNode* evenCur = evenHead;
-        while (evenCur) {
+        while (evenCur && evenCur->next) {
             oddCur->next = evenCur->next;
             oddCur = evenCur->next;
-            if (!oddCur) break;
             evenCur->next = oddCur->next;
             evenCur = oddCur->next;
         }
@@ -22,10 +21,9 @@ odd -> even
 Create some pointers: oddCur, evenCur, evenHead
 oddCur = head
 evenHead = evenCur = head->next
-while evenCur
+while evenCur && evenCur->next
     oddCur->next = evenCur->next
     oddCur = evenCur->next
-    if (!oddCur) break
     evenCur->next = oddCur->next
     evenCur = oddCur->next
 oddCur->next = evenHead
