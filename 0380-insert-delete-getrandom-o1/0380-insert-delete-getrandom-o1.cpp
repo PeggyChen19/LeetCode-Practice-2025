@@ -1,10 +1,9 @@
 class RandomizedSet {
 public:
-    unordered_map<int, int> indMap; //ind: val
+    vector<int> valVec; //ind: val
     unordered_map<int, int> valMap; //val: ind
-    int total;
-    RandomizedSet() {
-        total = 0;
+    int size;
+    RandomizedSet(): size(0) {
         srand(time(NULL));
     }
     
@@ -12,9 +11,9 @@ public:
         if (valMap.count(val)) {
             return false;
         } else {
-            indMap[total] = val;
-            valMap[val] = total;
-            total++;
+            valVec.push_back(val);
+            valMap[val] = size;
+            size++;
             return true;
         }
     }
@@ -22,12 +21,12 @@ public:
     bool remove(int val) {
         if (valMap.count(val)) {
             int removedInd = valMap[val];
-            int lastVal = indMap[total - 1];
-            indMap[removedInd] = lastVal; // update indMap
-            indMap.erase(total - 1);
+            int lastVal = valVec.back();
+            valVec[removedInd] = lastVal; // update indMap
+            valVec.pop_back();
             valMap[lastVal] = removedInd; // update valMap
             valMap.erase(val);
-            total--;
+            size--;
             return true;
         } else {
             return false;
@@ -35,16 +34,16 @@ public:
     }
     
     int getRandom() {
-        int randomInd = rand() % total;
-        return indMap[randomInd];
+        int randomInd = rand() % size;
+        return valVec[randomInd];
     }
 };
 /**
 O(1): insert & remove & getRandom
-unordered_map<int, int>: index, val
+vector<int>: index, val
 unordered_map<int, int>: val, index
-create a variable total to record the map size
-insert: total++
-remove: total--, move the last element to the removed index
-getRandom: randomly pick an index from 0~total-1
+create a variable size to record the map size
+insert: size++
+remove: size--, move the last element to the removed index
+getRandom: randomly pick an index from 0~size-1
 */
