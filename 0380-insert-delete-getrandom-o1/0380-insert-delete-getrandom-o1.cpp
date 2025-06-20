@@ -2,7 +2,7 @@ class RandomizedSet {
 public:
     vector<int> valVec; //ind: val
     unordered_map<int, int> valMap; //val: ind
-    RandomizedSet(): {
+    RandomizedSet() {
         srand(time(NULL));
     }
 
