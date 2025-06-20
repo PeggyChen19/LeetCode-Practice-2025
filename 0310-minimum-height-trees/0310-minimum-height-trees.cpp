@@ -5,36 +5,33 @@ public:
         vector<vector<int>> graph(n);
         vector<int> degree(n, 0);
         for (auto& edge : edges) {
-            degree[edge[0]]++;
-            degree[edge[1]]++;
-            graph[edge[0]].push_back(edge[1]);
-            graph[edge[1]].push_back(edge[0]);
+            int u = edge[0], v = edge[1];
+            degree[u]++;
+            degree[v]++;
+            graph[u].push_back(v);
+            graph[v].push_back(u);
         }
-        int count = 0;
-        bool final = false;
-        vector<int> result;
         queue<int> q;
         for (int i = 0; i < n; i++) {
-            if (degree[i] == 1) {
-                q.push(i);
-                count++;
-            }
+            if (degree[i] == 1) q.push(i);
         }
-        while (!q.empty()) {
-            if (count == n) final = true;
+        while (n > 2) {
             int size = q.size();
+            n -= size;
             for (int i = 0; i < size; i++) {
-                int node = q.front();
-                q.pop();
-                if (final) result.push_back(node);
+                int node = q.front(); q.pop();
                 for (int neighbor : graph[node]) {
                     degree[neighbor]--;
                     if (degree[neighbor] == 1) {
                         q.push(neighbor);
-                        count++;
                     }
                 }                
             }
+        }
+        vector<int> result;
+        while (!q.empty()) {
+            int center = q.front(); q.pop();
+            result.push_back(center);
         }
         return result;
     }
