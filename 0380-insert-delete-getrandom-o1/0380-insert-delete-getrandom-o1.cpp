@@ -2,18 +2,16 @@ class RandomizedSet {
 public:
     vector<int> valVec; //ind: val
     unordered_map<int, int> valMap; //val: ind
-    int size;
-    RandomizedSet(): size(0) {
+    RandomizedSet(): {
         srand(time(NULL));
     }
-    
+
     bool insert(int val) {
         if (valMap.count(val)) {
             return false;
         } else {
+            valMap[val] = valVec.size();
             valVec.push_back(val);
-            valMap[val] = size;
-            size++;
             return true;
         }
     }
@@ -26,7 +24,6 @@ public:
             valVec.pop_back();
             valMap[lastVal] = removedInd; // update valMap
             valMap.erase(val);
-            size--;
             return true;
         } else {
             return false;
@@ -34,8 +31,7 @@ public:
     }
     
     int getRandom() {
-        int randomInd = rand() % size;
-        return valVec[randomInd];
+        return valVec[rand() % valVec.size()];
     }
 };
 /**
