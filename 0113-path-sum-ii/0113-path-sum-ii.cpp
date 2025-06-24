@@ -12,9 +12,12 @@ private:
         if (!node) return;
         path.push_back(node->val);
         remain -= node->val;
-        if (!node->left && !node->right && !remain) result.push_back(path);
-        dfs(node->left, remain, path, result);
-        dfs(node->right, remain, path, result);
+        if (!node->left && !node->right && !remain) {
+            result.push_back(path);
+        } else {
+            dfs(node->left, remain, path, result);
+            dfs(node->right, remain, path, result);
+        }
         path.pop_back();
     }
 };
