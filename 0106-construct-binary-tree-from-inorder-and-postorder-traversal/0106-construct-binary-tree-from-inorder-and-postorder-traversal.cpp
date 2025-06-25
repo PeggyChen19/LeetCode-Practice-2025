@@ -9,14 +9,15 @@ public:
         return helper(inorderMap, postorder, 0, n - 1, 0, n - 1);
     }
 private:
-    TreeNode* helper(unordered_map<int, int>& inorderMap, vector<int>& postorder, int inLeft, int inRight, int postLeft, int postRight) {
-        if (postLeft > postRight) return nullptr;
-        int rootVal = postorder[postRight];
+    TreeNode* helper(unordered_map<int, int>& inorderMap, vector<int>& postorder, 
+                     int inStart, int inEnd, int postStart, int postEnd) {
+        if (inStart > inEnd || postStart > postEnd) return nullptr;
+        int rootVal = postorder[postEnd];
         TreeNode* root = new TreeNode(rootVal);
         int rootInd = inorderMap[rootVal];
-        int leftCount = rootInd - inLeft;
-        root->left = helper(inorderMap, postorder, inLeft, rootInd - 1, postLeft, postLeft + leftCount - 1);
-        root->right = helper(inorderMap, postorder, rootInd + 1, inRight, postLeft + leftCount, postRight - 1);
+        int leftCount = rootInd - inStart;
+        root->left = helper(inorderMap, postorder, inStart, rootInd - 1, postStart, postStart + leftCount - 1);
+        root->right = helper(inorderMap, postorder, rootInd + 1, inEnd, postStart + leftCount, postEnd - 1);
         return root;
     }
 };
