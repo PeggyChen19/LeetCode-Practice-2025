@@ -10,10 +10,10 @@ public:
                 break;
             }
         }
-        int neg = pos - 1;
+        int neg = pos - 1, negSquare, posSquare;
         while (neg >= 0 && pos < size) {
-            int negSquare = nums[neg] * nums[neg];
-            int posSquare = nums[pos] * nums[pos];
+            negSquare = nums[neg] * nums[neg];
+            posSquare = nums[pos] * nums[pos];
             if (negSquare < posSquare) {
                 result.push_back(negSquare);
                 neg--;
