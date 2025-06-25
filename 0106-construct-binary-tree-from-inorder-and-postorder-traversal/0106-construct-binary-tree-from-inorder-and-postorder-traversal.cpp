@@ -15,9 +15,9 @@ private:
         int rootVal = postorder[postEnd];
         TreeNode* root = new TreeNode(rootVal);
         int rootInd = inorderMap[rootVal];
-        int leftCount = rootInd - inStart;
-        root->left = helper(inorderMap, postorder, inStart, rootInd - 1, postStart, postStart + leftCount - 1);
-        root->right = helper(inorderMap, postorder, rootInd + 1, inEnd, postStart + leftCount, postEnd - 1);
+        int leftSize = rootInd - inStart;
+        root->left = helper(inorderMap, postorder, inStart, rootInd - 1, postStart, postStart + leftSize - 1);
+        root->right = helper(inorderMap, postorder, rootInd + 1, inEnd, postStart + leftSize, postEnd - 1);
         return root;
     }
 };
