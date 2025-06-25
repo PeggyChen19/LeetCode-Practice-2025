@@ -15,13 +15,13 @@ private:
         int mid;
         while (left <= right) {
             mid = left + (right - left) / 2;
-            if ((equal && nums[mid] >= target) || (!equal && nums[mid] > target)) { // go left
+            if ((equal && nums[mid] >= target) || (!equal && nums[mid] > target)) { // go left, try to find eariler valid one
                 right = mid - 1;
             } else { // go right
                 left = mid + 1;
             }
         }
-        return left;
+        return left; // left is the first index satisfies the condition
     }
 };
 /*
