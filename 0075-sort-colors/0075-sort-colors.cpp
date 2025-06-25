@@ -19,7 +19,13 @@ public:
 };
 /*
 Two pointers: zero = 0, two = size - 1
-iterate cur from zero
-if i == 0 or 2 -> swap
-else cur++
+iterate cur from zero to two
+if i == 0
+    swap; zero++; i++;
+else if i == 2
+    swap; two--;
+else
+    cur++;
+Dutch National Flag Algorithm
+只有從 right 換進來的數值要再檢查一次，從 left 換來的值是安全的
 */
