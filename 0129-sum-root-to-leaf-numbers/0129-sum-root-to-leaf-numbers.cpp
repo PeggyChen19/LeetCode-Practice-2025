@@ -1,25 +1,19 @@
 class Solution {
 public:
     int sumNumbers(TreeNode* root) {
-        int totalSum = 0;
-        dfs(root, 0, totalSum);
-        return totalSum;
+        return dfs(root, 0);
     }
 private:
-    void dfs(TreeNode* node, int curSum, int& totalSum) {
-        if (!node) return;
+    int dfs(TreeNode* node, int curSum) {
+        if (!node) return 0;
         curSum = curSum * 10 + node->val;
-        if (!node->left && !node->right) { // leaf
-            totalSum += curSum;
-            return;
-        } else {
-            dfs(node->left, curSum, totalSum);
-            dfs(node->right, curSum, totalSum);
-        }
+        if (!node->left && !node->right) return curSum; // leaf
+        return dfs(node->left, curSum) + dfs(node->right, curSum);
     }
 };
 /*
-DFS go through all nodes
-When recursive into a new node: curSum = curSum * 10 + nodeVal
-When entering a leaf node: totalSum += curSum
+DFS recursion:
+    curSum = curSum * 10 + nodeVal
+    When entering a leaf node: return curSum
+    return dfs(left) + dfs(right)
 */
