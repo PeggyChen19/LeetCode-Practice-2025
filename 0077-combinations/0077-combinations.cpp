@@ -12,7 +12,8 @@ private:
             result.push_back(cur);
             return;
         }
-        for (int i = start; i <= n; i++) {
+        int end = n - (k - cur.size()) + 1;
+        for (int i = start; i <= end; i++) {
             cur.push_back(i);
             helper(i + 1, n, k, cur, result);
             cur.pop_back();
