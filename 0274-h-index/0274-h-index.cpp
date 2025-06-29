@@ -1,18 +1,25 @@
 class Solution {
 public:
     int hIndex(vector<int>& citations) {
-        sort(citations.rbegin(), citations.rend());
-        for (int i = citations.size() - 1; i >= 0; i--) {
-            if (i + 1 <= citations[i]) return i + 1;
+        int n = citations.size();
+        vector<int> count(n + 1, 0);
+        for (int& citation : citations) {
+            citation = min(citation, n);
+            count[citation]++;
+        }
+        int total = 0;
+        for (int i = n; i >= 0; i--) {
+            total += count[i];
+            if (total >= i) {
+                return i;
+            }
         }
         return 0;
     }
 };
 /*
 3 0 6 1 5
-Sort:  6 5 3 1 0
-Index: 1 2 3 4 5 
-Find the largest index where index <= citation 
-Time complexity: O(nlogn)
-Space complexity: O(1)
+Counting Sort
+Create vector(n+1) to record the citations count
+From n to 0, accumulate the total. return the first total >= index
 */
