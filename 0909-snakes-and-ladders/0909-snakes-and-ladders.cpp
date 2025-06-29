@@ -19,7 +19,7 @@ public:
                     visited[next] = true;
                     int val = findBoardVal(board, next, n);
                     if (val == -1) q.push(next); // no ladder or snake
-                    else q.push(val); // ladder -> go to dst
+                    else q.push(val);
                 }
             }
             steps++;
@@ -28,11 +28,10 @@ public:
     }
 private:
     int findBoardVal(const vector<vector<int>>& board, const int& index, const int& n) {
-        int divide = index / n;
-        int mod = index % n;
-        int x = (n - 1) - divide;
-        int y = (divide % 2) ? (n - 1) - mod : mod;
-        return board[x][y] == -1 ? -1 : board[x][y] - 1;
+        int x = (n - 1) - index / n;
+        int y = (index / n % 2) ? (n - 1) - index % n : index % n;
+        int val = board[x][y];
+        return val== -1 ? -1 : val - 1;
     }
 };
 /*
