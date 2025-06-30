@@ -18,8 +18,8 @@ public:
 };
 /*
 Subarray -> Sliding Widnow / DP
-We cannot use sliding window because we can't decide 
-the only way to move the pointer based on the current situation
+We can't apply sliding window because it requires a clear condition to move the window boundaries
+However, there is no fixed rule to adjust the window (there are both positive & negative values)
 -> use DP
 
 Transition function:
