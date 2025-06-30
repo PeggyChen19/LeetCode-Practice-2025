@@ -17,7 +17,7 @@ Time: O(n)
 Space: O(n)
 
 Method 2:
-Sort the nums and check the frequency (int)
+Sort the nums, the nums at (n/2) is the answer
 Time: O(nlogn)
 Space: O(1)
 */
