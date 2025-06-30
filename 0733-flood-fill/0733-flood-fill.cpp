@@ -7,6 +7,7 @@ public:
         if (original == color) return image; // no need to change
         queue<pair<int, int>> q;
         q.push({sr, sc});
+        image[sr][sc] = color;
         while (!q.empty()) {
             auto [x, y] = q.front();
             q.pop();
