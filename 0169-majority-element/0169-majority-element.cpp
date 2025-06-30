@@ -2,12 +2,8 @@ class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         int n = nums.size();
-        unordered_map<int, int> freq;
-        for (int& num : nums) {
-            freq[num]++;
-            if (freq[num] > n / 2) return num;
-        }
-        return -1;
+        sort(nums.begin(), nums.end());
+        return nums[n / 2];
     }
 };
 /*
@@ -17,7 +13,7 @@ Time: O(n)
 Space: O(n)
 
 Method 2:
-Sort the nums, the nums at (n/2) is the answer
+Sort the nums, the nums at (n/2) is the answer (because the result must more than half)
 Time: O(nlogn)
 Space: O(1)
 */
