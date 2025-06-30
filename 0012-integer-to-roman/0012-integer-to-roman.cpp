@@ -1,7 +1,6 @@
 class Solution {
 public:
     string intToRoman(int num) {
-        if (num < 1 || num > 3999) return "";
         string result = "";
         vector<pair<int, string>> roman = {
             {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
