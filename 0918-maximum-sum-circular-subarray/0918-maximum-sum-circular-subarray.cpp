@@ -10,9 +10,6 @@ public:
             globalMin = min(globalMin, curMin);
             globalMax = max(globalMax, curMax);
         }
-        if (totalSum == globalMin) {
-
-        }
         return (globalMax < 0) ? globalMax : max(globalMax, totalSum - globalMin);
     }
 };
