@@ -1,8 +1,8 @@
 class Solution {
 public:
     int minMutation(string startGene, string endGene, vector<string>& bank) {
-        int n = bank.size();
-        vector<bool> visited(n, false);
+        vector<char> genes = {'A', 'C', 'G', 'T'};
+        unordered_set<string> bankSet(bank.begin(), bank.end());
         queue<string> q;
         q.push(startGene);
         int steps = 0;
@@ -12,10 +12,16 @@ public:
                 string cur = q.front();
                 q.pop();
                 if (cur == endGene) return steps;
-                for (int j = 0; j < n; j++) {
-                    if (!visited[j] && onlyOneMutation(cur, bank[j])) {
-                        visited[j] = true;
-                        q.push(bank[j]);
+                for (int i = 0; i < cur.size(); i++) {
+                    char original = cur[i];
+                    for (int j = 0; j < genes.size(); j++) {
+                        if (original == genes[j]) continue;
+                        cur[i] = genes[j]; // do mutation
+                        if (bankSet.count(cur)) {
+                            q.push(cur);
+                            bankSet.erase(cur);
+                        }
+                        cur[i] = original; // undo mutation
                     }
                 }
             }
@@ -23,27 +29,17 @@ public:
         }
         return -1;
     }
-private:
-    bool onlyOneMutation(string cur, string next) {
-        int diffCount = 0;
-        for (int i = 0; i < cur.size(); i++) {
-            if (cur[i] != next[i]) {
-                diffCount++;
-                if (diffCount > 1) return false;
-            }
-        }
-        return diffCount == 1;
-    }
 };
 /*
-BFS based solution, keep exploring what current genes can reach until endGene
-create visited bool vector
+BFS based solution, keep exploring valid genes from current gene until reaching endGene
+created unordered_set to record bank
 create queue
 q.push(start)
 while !q.empty
     cur = q.front
     if cur == end return layer_number
-    push the unvisited gene in bank that only requires one mutation from cur
+    list all possible mutations
+    check if each mutation is in bank or not
 
 Time: O(n) // every gene in bank only visits once
 Space: O(n) // store all genes
