@@ -1,39 +1,41 @@
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        unordered_map<int, int> memo; //sum : count
-        if (nums.size() == 0) {
-            return 0;
+        // calculate new target
+        int totalSum = 0, n = nums.size();
+        for (int i = 0; i < n; i++) {
+            totalSum += nums[i];
         }
-        memo[nums[0]] += 1;
-        memo[-nums[0]] += 1;
-        for (int i = 1; i < nums.size(); i++) {
-            unordered_map<int, int> next;
-            for (auto [sum, count] : memo) {
-                next[sum + nums[i]] += count; // count == memo[sum]
-                next[sum - nums[i]] += count;
+        if ((target + totalSum) % 2) return 0;
+        target = (target + totalSum) / 2;
+        // find subset sum to new target;
+        int negPrefix = 500;
+        vector<int> dp(1501, 0); // -500~1000
+        dp[negPrefix] = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = target; j >= nums[i]; j--) {
+                dp[j + negPrefix] += dp[j - nums[i] + negPrefix];
             }
-            memo.swap(next);
         }
-        return memo[target];
+        return dp[target + negPrefix];
     }
 };
 /*
-We would like to divide and conquer this question
-1. state & subproblem
-    sub-solution: the possible ways of index 0~i to get sum
-    state: index, sum
-2. decision
-    for each num, we can choose add it positive or negative
-3. state transition funciton
-    dp(i, sum+nums[i]) += dp(i-1, sum)
-    dp(i, sum-nums[i]) += dp(i-1, sum)
-4. base case
-    dp(0, sum) = 1
-    dp(0, -sum) = 1
-5. computational sequence
-    we can use double loops to iterate all nums and all current possible sum
-6. memorization
-    we can memorize dp(i, sum) and use it later
-    unordered_map<sum, count>> // this is all the possible sum for 0~i nums
+0 <= sum(nums[i]) <= 1000
+-1000 <= target <= 1000
+Brute force: backtracking -> go through all possibilities
+Can we use DP to reduce time complexity?
+針對每個數字，都要選擇是 Positive or Negative -> Divide into 2 group
+決定一個 group 後，剩下的都屬於另一個 group -> 找出其中一個 group 成立的條件
+sum(P) - sum(N) = target
+sum(P) + sum(N) = totalSum
+---------------------------
+sum(P) = 1/2 * (target + totalSum)
+Transfer the problem into subset sum -> Solve by DP 0/1 Knapsack problem
+
+Subproblem: the ways to sum up to sum from nums[0~i]
+Transition function:
+dp[i][sum] = dp[i-1][sum] + dp[i-1][sum - nums[i]]
+Memorization:
+1D vector (size: new target + 1)
 */
