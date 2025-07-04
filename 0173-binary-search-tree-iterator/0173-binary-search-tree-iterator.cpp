@@ -1,5 +1,7 @@
 class BSTIterator {
 public:
+    stack<TreeNode*> path;
+
     BSTIterator(TreeNode* root) {
         findLeftMost(root);
     }
@@ -18,7 +20,6 @@ public:
     }
 
 private:
-    stack<TreeNode*> path;
     void findLeftMost(TreeNode* node) {
         while (node) {
             path.push(node);
