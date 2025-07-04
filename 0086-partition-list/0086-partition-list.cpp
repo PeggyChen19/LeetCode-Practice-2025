@@ -25,9 +25,7 @@ public:
         }
         if (!curLeft) return dummyRightHead->next; // only right part
         curLeft->next = dummyRightHead->next; // link two lists
-        if (curRight) { // ends at right
-            curRight->next = nullptr;
-        }
+        if (curRight) curRight->next = nullptr; // end in right part
         return dummyLeftHead->next;
     }
 };
