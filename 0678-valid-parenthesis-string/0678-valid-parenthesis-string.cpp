@@ -1,44 +1,34 @@
 class Solution {
 public:
-	bool checkValidString(string s) {
-		int minL = 0, maxL = 0; // the possible range of (
-		for (char c : s) {
-			if (c == '(') {
-				minL++;
-				maxL++;
-			} else if (c == ')') {
-				minL = max(minL - 1, 0);
-				maxL--;
-			} else { // *
-				minL = max(minL - 1, 0); // might be right
-				maxL++; // might be left
-			}
-			if (maxL < 0) { // need more left 
-				return false;
-			}
-		}
-		return minL == 0 ? true : false;
-	}
+    bool checkValidString(string s) {
+        int minLeft = 0, maxLeft = 0;
+        for (char& ch : s) {
+            if (ch == '(') {
+                minLeft++;
+                maxLeft++;
+            } else if (ch == '*') {
+                minLeft = max(minLeft - 1, 0); // might be right
+                maxLeft++; // might be left
+            } else { // ')'
+                minLeft = max(minLeft - 1, 0);
+                maxLeft--;
+                if (maxLeft < 0) return false;
+            }
+        }
+        return minLeft == 0;
+    }
 };
 /*
-valid
-()
-((*)
-invalid
-()(
+Use two int: leftCount & starCount
+( -> leftCount++
+) -> leftCount-- OR starCount--
+* -> starCount++
+return leftCount <= starCount // has problem, e.g. *(
 
-We need to match ( and ) and follow the order
-Core question: how to decide what * to be?
-( : put into stack, for future ) matching
-) : pop the ( in the stack
-
-we can maintain a range of possible "unmatched (" : min ~ max
-( : min++, max++
-) : min--, max--
-* : min--, max++ because it can be ( or ) or empty
-
-invalid situation:
-max < 0 during the loop
-valid situation:
-min == 0 in the end of the loop
+Revised: two int: minLeft, maxLeft
+( -> minLeft++, maxLeft++
+* -> minLeft--, maxLeft++
+) -> minLeft-- (if > 0), maxLeft--
+Invalid: maxLeft < 0 during loop
+Valid: minLeft == 0
 */
