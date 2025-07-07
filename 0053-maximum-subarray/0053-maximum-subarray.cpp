@@ -1,17 +1,29 @@
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-        int result = INT_MIN, minPrefixSum = 0, curPrefixSum = 0;
-        for (int i = 0; i < nums.size(); i++) {
-            curPrefixSum = curPrefixSum + nums[i];
-            result = max(result, curPrefixSum - minPrefixSum);
-            minPrefixSum = min(minPrefixSum, curPrefixSum);
+        int global_max = INT_MIN;
+        int cur_max = 0;
+        for (int num : nums) {
+            cur_max = max(num, num + cur_max);
+            global_max = max(global_max, cur_max);
         }
-        return result;
+        return global_max;
     }
 };
 /*
-Subarray Sum-> DP / Sliding Window / Prefix Sum
-Not Sliding Window -> Not work, can't move the pointers simply based on the current states
-Prefix Sum: calculate the prefix sum and go through it, calculate curPrefixSum - minPrefixSum
+State: i (end of the subarray), cur_max_sum
+Subproblem: the max sum end with i
+這邊不要把 start point 當作 state，因為決定 start point 的時候還不能確定 max_sum，這樣就沒意義了
+通常要 memorize 的東西就是大問題在問的東西
+Decision:
+1. Ignore previous, start from this point
+2. Include previous and this point
+Transition function:
+init: ans = -INF
+dp[i] = max(nums[i], dp[i-1] + nums[i])
+ans = max(ans, dp[i])
+要注意這邊 dp[size-1] 不一定會是答案，因為他的定義是以 i 為結尾的最大可能，但最好的 subarray 不一定以 size-1 結尾，所以要用 ans 記錄目前最好的
+Implement:Bottom-up
+Memorization:
+Two vars: cur_max, global_max
 */
