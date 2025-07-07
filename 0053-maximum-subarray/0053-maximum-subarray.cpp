@@ -15,5 +15,5 @@ public:
 /*
 Subarray Sum-> DP / Sliding Window / Prefix Sum
 Not Sliding Window -> Not work, can't move the pointers simply based on the current states
-Prefix Sum: calculate the prefix sum and go through it, calculate curMaxPrefixSum - curMinPrefixSum
+Prefix Sum: calculate the prefix sum and go through it, calculate curPrefixSum - minPrefixSum
 */
