@@ -15,7 +15,7 @@ public:
                 if (node->left) q.push(node->left);
                 if (node->right) q.push(node->right);
             }
-            result.push_back(sum / (double)size);
+            result.push_back(sum / size);
         }
         return result;
     }
