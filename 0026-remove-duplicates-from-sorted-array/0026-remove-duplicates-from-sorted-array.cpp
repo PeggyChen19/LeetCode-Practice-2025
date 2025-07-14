@@ -6,7 +6,7 @@ public:
         for (int i = 1; i < nums.size(); i++) {
             if (nums[lastValid] != nums[i]) {
                 lastValid++;
-                swap(nums[lastValid], nums[i]);
+                nums[lastValid] = nums[i];
             }
         }
         return lastValid + 1;
