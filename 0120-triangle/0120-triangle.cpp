@@ -3,7 +3,6 @@ public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int row = triangle.size();
         if (row == 0) return 0;
-        if (row == 1) return triangle[0][0];
 
         vector<int> dp(row, INT_MAX);
         dp[0] = triangle[0][0];
