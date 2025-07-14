@@ -5,7 +5,7 @@ public:
         unordered_map<string, char> charMapping;
 
         int pInd = 0, sInd = 0;
-        while (sInd < s.size()) {
+        while (sInd < s.size() && pInd < pattern.size()) {
             string word = "";
             while (sInd < s.size() && s[sInd] != ' ') {
                 word += s[sInd];
@@ -22,7 +22,7 @@ public:
             }
             pInd++;
         }
-        return pInd == pattern.size();
+        return sInd >= s.size() && pInd >= pattern.size();
     }
 };
 /*
