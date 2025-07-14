@@ -1,31 +1,26 @@
 class Solution {
 public:
     bool wordPattern(string pattern, string s) {
-        vector<string> strMapping(26, "");
-        unordered_map<string, char> charMapping;
+        unordered_map<char, string> charToStr;
+        unordered_map<string, char> strToChar;
+        int pInd = 0;
+        istringstream iss(s);
+        string word;
+        while(getline(iss, word, ' ')) {
+            if (pInd >= pattern.size()) return false;
 
-        int pInd = 0, sInd = 0;
-        while (sInd < s.size() && pInd < pattern.size()) {
-            string word = "";
-            while (sInd < s.size() && s[sInd] != ' ') {
-                word += s[sInd];
-                sInd++;
-            }
-            sInd++;
-            if (strMapping[pattern[pInd] - 'a'] == "" && !charMapping.count(word)) { // haven't had mapping
-                charMapping[word] = pattern[pInd];
-                strMapping[pattern[pInd] - 'a'] = word;
-            } else if (strMapping[pattern[pInd] - 'a'] == "" || 
-                       !charMapping.count(word) || 
-                       charMapping[word] != pattern[pInd]) { // have incorrect mapping
-                return false;
-            }
+            char p = pattern[pInd];
+            if (charToStr.count(p) && charToStr[p] != word) return false;
+            if (strToChar.count(word) && strToChar[word] != p) return false;
+            // do the mapping
+            charToStr[p] = word;
+            strToChar[word] = p;
             pInd++;
         }
-        return sInd >= s.size() && pInd >= pattern.size();
+        return pInd == pattern.size();
     }
 };
 /*
-vector<string> & unordered_map<string, char> to record the mapping
+two unordered_map to record the bijection
 go through s & pattern, try to match the mapping
 */
