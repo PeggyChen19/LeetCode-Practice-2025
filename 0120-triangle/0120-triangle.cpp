@@ -12,7 +12,7 @@ public:
             }
             dp[0] += triangle[i][0];
         }
-
+        // find the min total from the last row
         int minTotal = INT_MAX;
         for (int i = 0; i < row; i++) {
             minTotal = min(minTotal, dp[i]);
