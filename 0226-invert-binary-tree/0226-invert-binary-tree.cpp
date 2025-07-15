@@ -12,20 +12,18 @@
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if (!root) {
-            return nullptr;
-        }
-        TreeNode* original_right = root->right;
-        root->right = invertTree(root->left);
-        root->left = invertTree(original_right);
+        if (!root) return nullptr;
+        TreeNode* tmp = root->left;
+        root->left = invertTree(root->right);
+        root->right = invertTree(tmp);
         return root;
     }
 };
 /*
-recursive fun invert
-    if root == null
-        return
-    swap left and right
-    invert(left)
-    invert(right)
+recursively traverse the tree
+helper
+    tmp = root->left
+    root->left = helper(root->right)
+    root->right = helper(tmp)
+    return root
 */
