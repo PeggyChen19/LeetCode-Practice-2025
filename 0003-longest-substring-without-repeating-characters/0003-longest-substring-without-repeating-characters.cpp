@@ -1,24 +1,25 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        unordered_set<char> content;
-        int maxLen = 0, slow = 0;
-        for (int fast = 0; fast < s.size(); fast++) {
-            while (content.count(s[fast])) {
-                content.erase(s[slow]);
-                slow++;
-            } 
-            content.insert(s[fast]);
-            maxLen = max(maxLen, fast - slow + 1);
+    int lengthOfLongestSubstring(string s) {    
+        int globalMax = 0, left = 0;
+        unordered_set<char> window;
+        for (int right = 0; right < s.size(); right++) {
+            char newChar = s[right];
+            while (window.count(newChar)) { // shrink until no newChar in current window
+                window.erase(s[left]);
+                left++;
+            }            
+            window.insert(newChar); // insert new char
+            globalMax = max(globalMax, right - left + 1);
         }
-        return maxLen;
+        return globalMax;
     }
 };
-
 /*
-substring -> sliding window
-fast: go through the string one by one
-slow: go right when the current window has duplicate values
-use unordered_set to record window content
-update maxLen
+Slding window
+use globalMax to track the result
+use unordered_set to check duplicate
+while not reach end
+    expand right until duplicated
+    shrink left until not duplicated
 */
