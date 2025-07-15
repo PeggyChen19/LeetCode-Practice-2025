@@ -1,23 +1,31 @@
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int,int> countMap; // num:count
-        vector<vector<int>> countVec(nums.size() + 1);
-        vector<int> ans;
-        for (int num : nums) {
-            countMap[num]++;
+        int n = nums.size();
+        unordered_map<int, int> numToFreq; // num: freq
+        vector<vector<int>> freqToNum(n + 1); // freq: nums
+        for (auto& num : nums) {
+            numToFreq[num]++;
         }
-        for (auto [num, count] : countMap) {
-            countVec[count].push_back(num);
+        for (auto& [num, freq] : numToFreq) {
+            freqToNum[freq].push_back(num);
         }
-        for (int i = countVec.size()-1; i >= 0; i--) {
-            for (int j: countVec[i]) {
-                ans.push_back(j);
-                if (ans.size() == k) {
-                    return ans;
-                }
+        vector<int> result;
+        for (int i = n; i >= 0; i--) {
+            for (int j = 0; j < freqToNum[i].size(); j++) {
+                result.push_back(freqToNum[i][j]);
+                if (result.size() == k) return result;
             }
         }
-        return ans;
+        return result;
     }
 };
+/*
+Target: Time complexity O(n)
+unordered_map<int, int> to record num: frequency
+vector<vector<int>> to record frequency: num vector, size(nums.size())
+1. go through nums to update unordered_map
+2. go through map to update vector
+3. pick the top k frenquency
+Time: O(n), Space: O(n)
+*/
