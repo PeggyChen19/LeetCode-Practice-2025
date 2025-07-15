@@ -15,7 +15,7 @@ public:
         return false;
     }
 private:
-    vector<pair<int, int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}; 
+    const vector<pair<int, int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}; 
     bool dfs(vector<vector<char>>& board, int i, int j, string& word, int ind, int& m, int& n) {
         if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[ind]) return false;
         if (ind == word.size() - 1) return true;
