@@ -1,20 +1,36 @@
 class Solution {
+private:
+    int partition(vector<int>& nums, int left, int right) {
+        int pivot = nums[left], l = left + 1, r = right;
+        while (l <= r) {
+            if (nums[l] < pivot && nums[r] > pivot) {
+                swap(nums[l], nums[r]);
+                l++;
+                r--;
+            }
+            if (nums[l] >= pivot) l++;
+            if (nums[r] <= pivot) r--;
+        }
+        swap(nums[left], nums[r]);
+        return r;
+    }
+
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int> max_heap(nums.begin(), nums.end());
-        for (int i = 1; i <= k-1; i++) {
-            max_heap.pop();
+        k--;
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int ind = partition(nums, left, right);
+            if (ind == k) return nums[ind];
+            else if (ind > k) right = ind - 1; // go left
+            else left = ind + 1; // go right
         }
-        return max_heap.top();
+        return -1;
     }
 };
 /*
-Max heap:
-heapify the whole vector
-for 1~k-1
-    pop
-Time Complexity
-O(n + klogn)
-Space Complexity
-O(n)
+Quick Select:
+partision:
+    select a pivot, place nums < pivot to left, >= pivot to right
+recursively do the partision based on the index of pivot until index == k
 */
