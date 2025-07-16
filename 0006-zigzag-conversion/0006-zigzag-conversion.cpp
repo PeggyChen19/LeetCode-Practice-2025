@@ -4,29 +4,16 @@ public:
         if (numRows == 1) return s;
         string result = "";
         int n = s.size();
-
-        // top row
-        int i = 0;
-        while (i < n) {
-            result += s[i];
-            i += (numRows - 1) * 2;
-        }
-        // middle rows
-        for (i = 1; i < numRows - 1; i++) {
+        for (int i = 0; i < numRows; i++) {
             int j = i;
             while (j < n) {
                 result += s[j];
                 int mid = j + (numRows - 1 - i) * 2;
-                if (mid >= n) break;
-                result += s[mid];
+                if (i != 0 && i != numRows - 1 && mid < n) {
+                    result += s[mid];
+                }
                 j += (numRows - 1) * 2;
             }
-        }
-        // bottom row
-        i = numRows - 1;
-        while (i < n) {
-            result += s[i];
-            i += (numRows - 1) * 2;
         }
         return result;
     }
@@ -39,20 +26,13 @@ public:
   ^^^ ^
   mid col
 
-Brute force: use an additional vector<vector<char>> size numRows
+Brute force: use an additional vector<vector<char>>, size: numRows
 Improvement: try to derive the formula
-
-for top row & bottom rows: (only have col)
-1. start with i
-2. update result with i
-3. i += (numRows - 1) * 2
-4. loop 2~3
-
-for middle rows i: (have mid & col)
+for each row i:
 1. start with i (j = i) 
-2. update result with j
-3. mid = j + (numRows - 1 - i) * 2
-4. update result with mid
-5. i += (numRows - 1) * 2
+2. result += j
+3. mid = j + (numRows - 1 - i) + (numRows - 1 - i)
+4. if middile row: result += mid
+5. i += numRows + numRows - 2
 6. loop 2~5
 */
