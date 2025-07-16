@@ -16,10 +16,10 @@ public:
             int j = i;
             while (j < n) {
                 result += s[j];
-                int mid = j + (numRows - i - 1) + (numRows - i - 2) + 1;
+                int mid = j + (numRows - 1 - i) * 2;
                 if (mid >= n) break;
                 result += s[mid];
-                j += numRows + numRows - 2;
+                j += (numRows - 1) * 2;
             }
         }
         // bottom row
@@ -31,3 +31,28 @@ public:
         return result;
     }
 };
+/*
+0     6
+1   5 7
+2 4   8
+3     9
+  ^^^ ^
+  mid col
+
+Brute force: use an additional vector<vector<char>> size numRows
+Improvement: try to derive the formula
+
+for top row & bottom rows: (only have col)
+1. start with i
+2. update result with i
+3. i += (numRows - 1) * 2
+4. loop 2~3
+
+for middle rows i: (have mid & col)
+1. start with i (j = i) 
+2. update result with j
+3. mid = j + (numRows - 1 - i) * 2
+4. update result with mid
+5. i += (numRows - 1) * 2
+6. loop 2~5
+*/
