@@ -2,16 +2,16 @@ class Solution {
 public:
     string convert(string s, int numRows) {
         if (numRows == 1) return s;
-        vector<string> zigzag(numRows, "");
+        vector<string> rows(numRows, "");
         int i = 0;
         bool goDown = false;
         for (char& ch: s) {
-            zigzag[i].push_back(ch);
+            rows[i].push_back(ch);
             if (i == 0 || i == numRows - 1) goDown = !goDown;
             i += goDown ? 1 : -1;
         }
         string result = "";
-        for (string& row : zigzag) result += row;
+        for (string& row : rows) result += row;
         return result;
     }
 };
