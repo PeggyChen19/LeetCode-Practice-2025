@@ -1,36 +1,27 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int left = 0;
-        int right = nums.size() - 1;
-        int lastValue = nums[right];
+        int left = 0, right = nums.size() - 1;
+        int lastVal = nums.back();
         while (left <= right) {
-            int mid = left + (right - left) / 2; // avoid overflow
-            if (nums[mid] <= lastValue) { // mid is in the right group -> go left
+            int mid = left + (right - left) / 2;
+            if (nums[mid] <= lastVal) { // go left, try to find the smaller valid element
                 right = mid - 1;
-            } else {
+            } else { // go right
                 left = mid + 1;
             }
         }
-        return nums[left];
+        return nums[left]; // left will stop at the first valid element
     }
 };
-
 /*
-The sorted array 經過未知次數 rotate，要找到 min value of this array
-Time complexity: O(logn)
-min array length? 1
-unique? yes
-input: 6  7  1  2  3  4  5
-output: 1
-input: 1
-output: 1
-input: 1  2  3  4  5
-output: 1
-
-increasing(bigger) drop increasing
-binary search -> divide the array into 2 groups
-left: > the last element
-right: <= the last element
-our target will be the first one in right group
+Every element is unique
+Time: O(logn) -> binary search
+| 1 2 3 4 5
+  *
+4 5 | 1 2 3
+      *
+2 3 4 5 | 1
+          *
+Find the first element <= the last element of the rotated array
 */
