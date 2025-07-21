@@ -1,32 +1,31 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        if (nums.empty()) return 0; // Explicit check for empty input
-        int ans = 0;
-        unordered_set<int> numsSet(nums.begin(), nums.end());
-        for (int num : numsSet) { // go through numsSet to avoid duplicate operations
-            if (!numsSet.count(num - 1)) { // starting point
-                int len = 1;
-                int next = num + 1;
-                while(numsSet.count(next)) {
+        unordered_set<int> numsSet;
+        for (int& num : nums) {
+            numsSet.insert(num);
+        }
+        int maxLen = 0;
+        for (int num : numsSet) { // iterate set to avoid duplications
+            if (!numsSet.count(num - 1)) { // the start point
+                int len = 0, cur = num;
+                while (numsSet.count(cur)) {
+                    cur++;
                     len++;
-                    next++;
                 }
-                ans = max(ans, len);
+                maxLen = max(len, maxLen);
             }
         }
-        return ans;
+        return maxLen;
     }
 };
-
 /*
-go through nums
-    store each num in unordered_set
-go through nums
-    check if nums[i] - 1 exists
-    if yes -> pass, this is not the starting point
-    if no -> increase the value one by one and then check if that value exists
-        record the longest length
-T: O(n)
-S: O(n)
+Time limit: O(n)
+disjoint set? -> hard to track the consecutive intervals' start & end
+need to find the element's neighbors in O(1) -> hash map
+Solution:
+1. store all nums into unorderd_set
+2. go through all nums, check if it's the start of the consecutive sequence via unordered_set
+3. if it's the start point, build the sequence
+4. return the max sequence
 */
