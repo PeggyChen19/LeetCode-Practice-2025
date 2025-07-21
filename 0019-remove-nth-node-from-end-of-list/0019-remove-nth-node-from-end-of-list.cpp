@@ -1,35 +1,26 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode dummyHead(0, head);
-        ListNode* left = &dummyHead;
-        ListNode* right = &dummyHead;
-        for (int i = 0; i < n; i++) {
-            right = right->next;
+        ListNode* dummy = new ListNode(0, head);
+        ListNode *fast = dummy, *slow = dummy;
+        for (int i = 0; i < n; i++) { // fast goes n times
+            fast = fast->next;
         }
-        while (right->next) {
-            left = left->next;
-            right = right->next;
+        while (fast->next) {
+            fast = fast->next;
+            slow = slow->next;
         }
-        left->next = left->next->next;
-        return dummyHead.next;
+        // when fast->next == nullptr, slow->next = the last n
+        slow->next = slow->next->next;
+        return dummy->next;
     }
 };
 /*
-node_size >= 1
-1 <= n <= node_size
-x 0 1 2 3 4
-s   f
-      s   f
-n = 2, remove "3"
+Two pointer with n distance, when the fast one reaches the end, the slow one reaches the last n
+Note: n <= list size
+Example:
+n = 2
+d 1 2 3 4 5
+^   ^ 
+      ^   ^
 */
