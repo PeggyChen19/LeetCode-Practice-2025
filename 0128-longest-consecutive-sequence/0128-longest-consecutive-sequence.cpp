@@ -6,7 +6,7 @@ public:
             numsSet.insert(num);
         }
         int maxLen = 0;
-        for (int num : numsSet) { // iterate set to avoid duplications
+        for (auto& num : numsSet) { // iterate set to avoid duplications
             if (!numsSet.count(num - 1)) { // the start point
                 int len = 0, cur = num;
                 while (numsSet.count(cur)) {
