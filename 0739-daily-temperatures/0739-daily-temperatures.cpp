@@ -1,28 +1,28 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temperatures) {
-        vector<int> ans(temperatures.size(), 0);
+        int size = temperatures.size();
         stack<int> st;
-        for (int i = temperatures.size() - 1; i >= 0; i--) {
-            while (!st.empty() && temperatures[st.top()] <= temperatures[i]) {
+        vector<int> result(size, 0);
+        for (int i = 0; i < size; i++) {
+            while (!st.empty() && temperatures[i] > temperatures[st.top()]) {
+                result[st.top()] = i - st.top();
                 st.pop();
-            }
-            if (!st.empty()) {
-                ans[i] = st.top() - i;
             }
             st.push(i);
         }
-        return ans;
+        return result;
     }
 };
-
 /*
-we would like to find "the first higher value" on the right
-we can have a stack to record an strict decreasing order from bottom to top, and
-we will build this stack from right to left
-if we iterate to a new value
-    1. pop the top it until meeting a bigger one or reaching the end
-    2. find the ans and then push the new value into stack
-We need to know the both value & index -> record both in stack
-T: O(n), S: O(n)
+Target: find the "first" element bigger than the current one on the right side
+We can maintain a monotonic stack which is decreasing -> the elements in the stack haven't found the bigger one
+When find the bigger one, pop the smaller elements and maintain the stack
+Note: record the stack using index
+
+e.g. 
+ind 0 1 2 3 4
+    8 5 4 7 9
+res 4 2 1 1
+st: 9
 */
