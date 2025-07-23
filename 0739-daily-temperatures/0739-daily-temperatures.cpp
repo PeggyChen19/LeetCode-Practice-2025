@@ -19,10 +19,4 @@ Target: find the "first" element bigger than the current one on the right side
 We can maintain a monotonic stack which is decreasing -> the elements in the stack haven't found the bigger one
 When find the bigger one, pop the smaller elements and maintain the stack
 Note: record the stack using index
-
-e.g. 
-ind 0 1 2 3 4
-    8 5 4 7 9
-res 4 2 1 1
-st: 9
 */
