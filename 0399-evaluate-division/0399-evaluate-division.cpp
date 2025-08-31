@@ -9,10 +9,10 @@ public:
         }
         for (int i = 0; i < queries.size(); i++) {
             unordered_set<string> visited;
-            if (!adjacent.count(queries[i][0]) || !adjacent.count(queries[i][1])) result.push_back(-1);
-            else if (queries[i][0] == queries[i][1]) result.push_back(1);
+            if (!adjacent.count(queries[i][0]) || !adjacent.count(queries[i][1])) result.push_back(-1.0);
+            else if (queries[i][0] == queries[i][1]) result.push_back(1.0);
             else {
-                double ans = -1;
+                double ans = -1.0;
                 queue<pair<string, double>> q;
                 q.push({queries[i][0], 1});
                 visited.insert(queries[i][0]);
