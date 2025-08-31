@@ -1,18 +1,19 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        unordered_map<char, char> mapping;
-        unordered_set<char> mapped;
+        vector<int> s2t(256, -1);
+        vector<int> t2s(256, -1);
         for (int i = 0; i < s.size(); i++) {
-            if (!mapping.count(s[i]) && !mapped.count(t[i])) {
-                mapping[s[i]] = t[i];
-                mapped.insert(t[i]);
-            } else if (!mapping.count(s[i]) || mapping[s[i]] != t[i]) return false;
+            char a = s[i], b = t[i];
+            if (s2t[a] == -1 && t2s[b] == -1) {
+                s2t[a] = b;
+                t2s[b] = a;
+            } else if (s2t[a] != b || t2s[b] != a) return false;
         }
         return true;
     }
 };
 /*
-use unorderd_map to record the mapping
-space: O(n) -> limited amount of char
+use 2 vectors to record the mapping
+space: O(1) -> limited amount of char
 */
