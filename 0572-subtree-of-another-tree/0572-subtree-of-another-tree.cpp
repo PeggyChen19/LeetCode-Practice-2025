@@ -1,20 +1,10 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        string root_str = tree2str(root, "");
-        string sub_str = tree2str(subRoot, "");
-        if (root_str.find(sub_str) != string::npos) {
+        string sRoot, sSub;
+        tree2str(root, sRoot);
+        tree2str(subRoot, sSub);
+        if (sRoot.find(sSub) != string::npos) {
             return true;
         } else {
             return false;
@@ -22,13 +12,14 @@ public:
     }
 
 private:
-    string tree2str(TreeNode* node, string s) {
+    void tree2str(TreeNode* node, string& s) {
         if (node) {
-            s = s + "," + to_string(node->val);
+            s += "," + to_string(node->val);
         } else {
             s += ",N";
-            return s;
+            return;
         }
-        return tree2str(node->right, (tree2str(node->left, s)) );
+        tree2str(node->left, s);
+        tree2str(node->right, s);
     }
 };
