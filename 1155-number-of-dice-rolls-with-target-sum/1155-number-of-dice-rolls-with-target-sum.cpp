@@ -1,57 +1,38 @@
 class Solution {
 public:
     int numRollsToTarget(int n, int k, int target) {
-        int mod = (int)pow(10, 9) + 7;
-        vector<int> memo(target+1, 0);
-        memo[0] = 1; // for no dice -> only can combine to 0 with one way
+        int mod = 1000000007;
+        vector<int> dpPre(target + 1, 0);
+        vector<int> dpCur(target + 1, 0);
+        dpPre[0] = 1; // no dice
         for (int i = 0; i < n; i++) {
             int sub_sum = 0;
-            vector<int> next_memo(target+1, 0);
-            for (int t = 1; t <= target; t++) {
-                sub_sum = (sub_sum + memo[t - 1]) % mod; // sliding window: add element
-                if (t-k-1 >= 0) {
-                    sub_sum = (sub_sum - memo[t-k-1] + mod) % mod; // sliding window: delete
+            for (int j = 1; j <= target; j++) {
+                sub_sum = (sub_sum + dpPre[j - 1]) % mod; // add element
+                if (j - (k + 1) >= 0) {
+                    sub_sum = (sub_sum - dpPre[j - (k + 1)] + mod) % mod; // remove element
                 }
-                next_memo[t] = sub_sum;
+                dpCur[j] = sub_sum;
             }
-            memo = next_memo;
+            dpPre = dpCur;
+            fill(dpCur.begin(), dpCur.end(), 0);
         }
-        return memo[target];
+        return dpPre[target];
     }
 };
 /*
-1. State & Subproblem
-state: index, face, cur_sum
-subproble: the number of way to sum up to target using dice 0~i
-2. Decision
-for each dice, choose from 1~k
-3. State Transition Function
-memo[dice][sum] = sum of (memo[dice-1][sum-f]) for all f from 1 to k
-4. Base Case
-memo[0] = 1
-5. Computational Sequence (bottom-up / top-down)
-for all dices
-    for all sums (reverse)
-        memo[sum] = 0
-        for all faces
-            memo[sum] += memo[sum-face]
-6. Memorization - build a lookup table
-1d memo vector
-7. Improvement
-for all dices
-    for all faces
-        sub_sum += memo[sum-face]
-    for all sums (reverse)
-        memo[sum] = sub_sum
-        update sub_sum (sliding window)
-
-1 2 3 4 5 6 
--------------
-1 1 1 1 1 1
-^ ^ ^ ^
-0 1 2 3
- 
-2: 1+1
-3: 1+2, 2+1
-4: 1+3, 2+2, 3+1
+divide the problem into subproblem -> dp
+states: the number of dice used (i), the current sum (s)
+transiction function:
+dp[i][s] = sum(dp[i-1][s - face]), for face from 1 to k
+implement:
+for all dice
+    for all sum
+        for all face
+improvement:
+for the sum of all face, this is the sum of a continuous array, we can utilize the concept of sliding window, in that case, we don't need to calculate the sum from scratch everytime
+memorization:
+two 1D array
+dp[pre][s]
+dp[cur][s]
 */
