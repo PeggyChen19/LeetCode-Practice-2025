@@ -4,33 +4,17 @@ public:
         vector<unsigned long long> dp(amount + 1, 0);
         dp[0] = 1;
         for (int coin : coins) {
-            for (int s = coin; s < dp.size(); s++) {
-                dp[s] += dp[s - coin];
+            for (int i = coin; i <= amount; i++) {
+                dp[i] += dp[i - coin];
             }
         }
-        return (int)dp.back();
+        return dp[amount];
     }
 };
 /*
-[1, 2, 3], 4
-1, 1, 1, 1
-1, 1, 2
-1, 3
-2, 2
--> 4
-
-States: index, sum, current combination ways
-Sub-problem: current combination ways from combinations of coins 0~i for sum
-Decision: choose it n times or not choose it
-Base case:
-dp[-1][0] = 1
-dp[-1][1~n] = 0
-
-Transition function:
-dp(i, sum) = dp(i-1, sum) + dp(i, sum-coins[i])
-             ^ not choose   ^ choose it (maybe more than once)
-
-Memorization:
-2D array: index size * target sum
-Optimization: we only need one row represents i-1 & i
+final problem can be derived from sub-problem -> DP
+vector dp, size: amount + 1, val: 0
+for each coin
+    for each sum (from coin to amount)
+        update dp[sum] (the same coin value can use multiple times)
 */
