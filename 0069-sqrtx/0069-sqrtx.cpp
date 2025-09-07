@@ -11,14 +11,6 @@ public:
                 right = mid - 1;
             }
         }
-        // after loop, left is the first element which left^2 > x
-        return left - 1;
+        return right;
     }
 };
-/*
-find square root of x rounded down to the nearest integer
-rounded_down_root ^ 2 <= x
-(rounded_down_root + 1) ^ 2 > x
-
-Improvement: use binary search
-*/
