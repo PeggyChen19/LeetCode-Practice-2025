@@ -42,42 +42,39 @@ class Solution {
 public:
     Node* construct(vector<vector<int>>& grid) {
         if (grid.empty()) return nullptr;
-        auto [node, val] = build(grid, 0, 0, grid.size());
-        if (node) return node;
-        else return new Node(val, true);
+        return build(grid, 0, 0, grid.size());
     }
 private:
-    pair<Node*, int> build(vector<vector<int>>& grid, int i, int j, int size) {
-        if (size == 1) return {nullptr, grid[i][j]};
+    Node* build(const vector<vector<int>>& grid, int i, int j, int size) {
+        if (size == 1) return new Node(grid[i][j] == 1, true);
         int newSize = size / 2;
-        auto [topL, topL_val] = build(grid, i, j, newSize);
-        auto [topR, topR_val] = build(grid, i, j + newSize, newSize);
-        auto [botL, botL_val] = build(grid, i + newSize, j, newSize);
-        auto [botR, botR_val] = build(grid, i + newSize, j + newSize, newSize);
-        if (topL_val == topR_val && topR_val == botL_val && botL_val == botR_val && topL_val != -1) {
-            return {nullptr, topL_val};
+        Node* tl = build(grid, i, j, newSize);
+        Node* tr = build(grid, i, j + newSize, newSize);
+        Node* bl = build(grid, i + newSize, j, newSize);
+        Node* br = build(grid, i + newSize, j + newSize, newSize);
+        if (tl->isLeaf && tr->isLeaf && bl->isLeaf && br->isLeaf &&
+            tl->val == tr->val && tr->val == bl->val && bl->val == br->val) {
+            // 4 children are leaves and have the same val -> collapse
+            bool val = tl->val;
+            delete tl; delete tr; delete bl; delete br;
+            return new Node(val, true);
         } else {
-            if (!topL) topL = new Node(topL_val, true);
-            if (!topR) topR = new Node(topR_val, true);
-            if (!botL) botL = new Node(botL_val, true);
-            if (!botR) botR = new Node(botR_val, true);
-            return {new Node(-1, false, topL, topR, botL, botR), -1};
+            // create new node to connect children
+            return new Node(true, false, tl, tr, bl, br);
         }
     }
 };
 /*
-pair<Node*, int> Node* recursion (grid range)
+Node* recursion (grid range)
     if the grid has only one element
-        return element value
-    find the center of the grid
+        return new node
     recursion(topleft)
     recursion(topright)
     recursion(bottomleft)
     recursion(bottomright)
-    if 4 values are the same
-        return value
+    if 4 children are leaves and have the same val -> collapse
+        delete children
+        return new leaf
     else
-        create nodes for each recursion if it doesn't have
-        create nodes for current grid
-        return node, -1
+        return new node
 */
