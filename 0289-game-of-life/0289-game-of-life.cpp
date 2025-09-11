@@ -2,10 +2,11 @@ class Solution {
 public:
     vector<pair<int, int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
     void gameOfLife(vector<vector<int>>& board) {
+        if (board.empty()) return;
         int n = board.size(), m = board[0].size();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                auto [live, dead] = checkNeighbors(board, i, j);
+                int live = checkNeighbors(board, i, j);
                 if (board[i][j] == 1 && (live < 2 || live > 3)) {
                     board[i][j] = 2; // rule 1, 3
                 } else if (board[i][j] == 0 && live == 3) { // rule 4
@@ -21,17 +22,16 @@ public:
         }
     }
 private:
-    pair<int, int> checkNeighbors(vector<vector<int>>& board, int i, int j) {
-        int live = 0, dead = 0;
+    int checkNeighbors(vector<vector<int>>& board, int i, int j) {
+        int live = 0;
         for (auto& [dx, dy]: directions) {
             int x = i + dx;
             int y = j + dy;
-            if (x < board.size() && y < board[0].size()) {
+            if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size()) {
                 if (board[x][y] == 1 || board[x][y] == 2) live++;
-                else dead++;
             }
         }
-        return {live, dead};
+        return live;
     }
 };
 /*
