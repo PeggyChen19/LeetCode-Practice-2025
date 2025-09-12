@@ -16,7 +16,7 @@ public:
                 if (j != i + 1 && nums[j - 1] == nums[j]) continue;
                 long long remain = (long long) target - nums[i] - nums[j];
 
-                // pruing
+                // pruning
                 if ((long long)nums[j + 1] + nums[j + 2] > remain) break;
                 if ((long long)nums[n - 2] + nums[n - 1] < remain) continue; // need larger remain
 
