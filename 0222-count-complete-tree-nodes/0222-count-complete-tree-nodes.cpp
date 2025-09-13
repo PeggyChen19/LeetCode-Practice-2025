@@ -25,8 +25,12 @@ public:
     }
 private:
     int countDepth(TreeNode* node) {
-        if (!node) return 0;
-        return 1 + countDepth(node->left);
+        int d = 0;
+        while (node) {
+            node = node->left;
+            d++;
+        }
+        return d;
     }
 };
 /*
