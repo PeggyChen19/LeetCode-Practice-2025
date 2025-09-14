@@ -12,15 +12,15 @@
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        if (nums.empty()) return nullptr;
         return buildTree(nums, 0, nums.size() - 1);
     }
 private:
     TreeNode* buildTree(vector<int>& nums, int start, int end) {
         if (start > end) return nullptr;
-        if (start == end) return new TreeNode(nums[start]);
         int mid = start + (end - start) / 2;
-        TreeNode* center = new TreeNode(nums[mid], buildTree(nums, start, mid - 1), buildTree(nums, mid + 1, end));
+        TreeNode* center = new TreeNode(nums[mid]);
+        center->left = buildTree(nums, start, mid - 1);
+        center->right = buildTree(nums, mid + 1, end);
         return center;
     }
 };
