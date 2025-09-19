@@ -1,26 +1,18 @@
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        if (strs.empty() || strs[0].empty()) {
-            return "";
-        }
-        int commonInd = strs[0].size();
+        if (strs.empty() || strs[0].empty()) return "";
+        int prefix = strs[0].size();
         for (int i = 1; i < strs.size(); i++) {
-            for (int j = 0; j < commonInd; j++) {
+            int size = strs[i].size();
+            prefix = min(prefix, size);
+            for (int j = 0; j < prefix; j++) {
                 if (strs[0][j] != strs[i][j]) {
-                    commonInd = j;
+                    prefix = j;
                     break;
                 }
             }
-            if (commonInd == 0) {
-                return "";
-            }
         }
-        return strs[0].substr(0, commonInd);
+        return strs[0].substr(0, prefix);
     }
 };
-/*
-Use a pointer to record the index of longest common prefix
--> Point at the end of strs[0]
-Go through remaining strs, update the pointer
-*/
