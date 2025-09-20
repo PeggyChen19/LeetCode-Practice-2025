@@ -1,30 +1,23 @@
 class Solution {
 public:
     int reverse(int x) {
-        int ans = 0;
-        while (x) {
-            int last_digit = x % 10; // get the last digit
-            x /= 10; // remove the last digit
-            // overflow check
-            if (last_digit > 0 && ans > (INT_MAX - last_digit) / 10) return 0;
-            if (last_digit < 0 && ans < (INT_MIN - last_digit) / 10) return 0;
-            ans *= 10; // reserve the last digit place for the incoming digit
-            ans += last_digit;
+        if (x == 0) return 0;
+        int result = 0;
+        while (x != 0) {
+            int lastDigit = x % 10;
+            if ((lastDigit > 0 && result > INT_MAX / 10) || (lastDigit < 0 && result < INT_MIN / 10)) return 0; // overflow (no equal)
+            else result *= 10;
+            if ((lastDigit > 0 && result > INT_MAX - lastDigit) || (lastDigit < 0 && result < INT_MIN - lastDigit)) return 0; // overflow
+            else result += lastDigit;
+            x /= 10;
         }
-        return ans;
+        return result;
     }
 };
 /*
-321 -> 123
-120 -> 21
-How to handle overflow? Check it before calculating
-
-int ans = 0
-while (input) {
-    int last_digit = input % 10 // get the last digit
-    input /= 10 // remove the last digit
-    ans *= 10 // reserve the last digit place for the incoming digit
-    ans += last_digit
-}
-return ans
+notice of overflow
+int result = 0
+while (x > 0)
+    result = result * 10 + (x % 10) (check overflow)
+    x /= 10
 */
