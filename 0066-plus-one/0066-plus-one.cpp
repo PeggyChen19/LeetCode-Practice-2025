@@ -1,14 +1,21 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        for (int i = digits.size() - 1; i >= 0; i--) {
-            digits[i]++;
-            if (digits[i] != 10) {
-                return digits;
-            }
-            digits[i] = 0;
+        int n = digits.size();
+        int carry = 1;
+        int i = n - 1;
+        while (i >= 0 && carry) {
+            digits[i] += carry;
+            carry = digits[i] / 10;
+            digits[i] %= 10;
+            i--;
         }
-        digits.insert(digits.begin(), 1);
+        if (carry) digits.insert(digits.begin(), 1);
         return digits;
     }
 };
+/*
+add one (from rightmost)
+go from right to left until no carry
+if having carry after go through all digits -> push_front
+*/
