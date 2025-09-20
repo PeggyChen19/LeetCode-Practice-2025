@@ -2,27 +2,27 @@ class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
         unordered_map<int, int> prefixSumCount;
-        prefixSumCount[0] = 1; // empty array
-        int prefixSum = 0, result = 0;
-        for (int& num : nums) {
-            prefixSum += num;
-            int target = prefixSum - k;
-            if (prefixSumCount.count(target)) {
-                result += prefixSumCount[target];
+        prefixSumCount[0]++; // no element -> prefixSum = 0
+        int result = 0, curPrefixSum = 0;
+        for (int num : nums) {
+            curPrefixSum += num;
+            if (prefixSumCount.count(curPrefixSum - k)) {
+                result += prefixSumCount[curPrefixSum - k];
             }
-            prefixSumCount[prefixSum]++;
+            prefixSumCount[curPrefixSum]++;
         }
         return result;
     }
 };
 /*
-subarray satisfies some condition -> sliding window
-But! we can't decide when to move left pointer (has positive & negative nums) -> sliding window not work
-interval sum -> prefix sum
-unordered_map to record the count of each prefix sum value
-go through all nums
-    update prefixSum
-    if prefixSum - (one of previous prefixSums) == k
-        update result
-    update count
+subarray sum -> internal sum -> prefix sum
+prefixSum[j] - prefixSum[i] = intervalSum[i, j] = k
+
+use unordered_map<prefixSumVal, count> to record all prefix sum val
+use int result to record result
+for num in nums
+    update curPrefix
+    if curPrefix - k can be found in mapping
+    result += mapping[curPrefix - k]
+    mapping[curPrefix]++
 */
