@@ -1,37 +1,53 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        if (nums.empty()) return;
-        int n = nums.size(), i = -1;
-        for (i = n - 2; i >= 0; i--) {
-            if (nums[i] < nums[i + 1]) {
-                for (int j = n - 1; j >= i + 1; j--) {
-                    if (nums[j] > nums[i]) {
-                        swap(nums[j], nums[i]);
-                        break;
-                    }
-                }
+        int n = nums.size();
+        int pivot = -1;
+        for (int i = n - 1; i > 0; i--) {
+            if (nums[i - 1] < nums[i]) {
+                pivot = i;
+                break;         
+            }
+        }
+        if (pivot == -1) { // the last permutation (strictly decreasing)
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        int left = pivot - 1;
+        for (int i = n - 1; i > left; i--) {
+            if (nums[i] > nums[left]) {
+                swap(nums[i], nums[left]);
                 break;
             }
         }
-        reverse(nums.begin() + i + 1, nums.end());
+        reverse(nums.begin() + pivot, nums.end());
+        return;
     }
 };
 /*
-1 2 5 3 2 1
-  * <----->
-    descending
-1 2 1 2 3 5
-  * <----->
-    ascending
-1 3 1 2 2 5
-  *     ^
+special case: the last permutation -> reverse the nums
+5 4 3 2 1
+1 2 3 4 5
 
-Target: do the min changes to make the nums bigger
-The right part which is descending cannot be bigger via swapping
--> need to find the pivot and make the pivot position bigger
+normal case:
+check from rightmost
+find the first element (pivot) which is bigger than its left neighbor (left)
+swap(left, the first and rightmost element which is bigger than left)
+reverse(right, end)
 
-1. Start from right, find the first nums[i] < nums[i + 1] (pivot)
-2. Start from right, find the first nums[j] > nums[i], swap(nums[i], nums[j])
-3. reverse the right part [i + 1, end] (descending to ascending)
+1 2 4 3 5
+      l p/b
+1 2 4 5 3
+
+1 5 4 3 2
+l p     b
+2 5 4 3 1
+  [reverse]
+2 1 3 4 5
+
+2 5 4 3 1
+l p   b
+3 5 4 2 1
+  [reverse]
+3 1 2 4 5
 */
