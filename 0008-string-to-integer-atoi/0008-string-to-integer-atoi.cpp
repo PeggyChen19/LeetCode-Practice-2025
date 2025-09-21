@@ -8,7 +8,7 @@ public:
             if (s[i] != ' ') break;
             i++;
         }
-        if (s[i] == '+' || s[i] == '-') {
+        if ( i < n && (s[i] == '+' || s[i] == '-')) {
             negative = (s[i] == '-');
             i++;
         }
