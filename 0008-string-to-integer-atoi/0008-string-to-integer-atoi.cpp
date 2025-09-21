@@ -1,32 +1,38 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        bool positive = true;
-        int i = 0, n = s.size(), result = 0;
-        while (i < n && s[i] == ' ') {
+        bool negative = false;
+        int result = 0;
+        int i = 0, n = s.size();
+        while (i < n) {
+            if (s[i] != ' ') break;
             i++;
         }
-        if (i < n && (s[i] == '+' || s[i] == '-')) {
-            if (s[i] == '-') positive = false;
+        if (s[i] == '+' || s[i] == '-') {
+            negative = (s[i] == '-');
             i++;
         }
-        while (i < n && s[i] >= '0' && s[i] <= '9') {
+        while (i < n && s[i] >= '0' && s[i] <= '9') { 
             int digit = s[i] - '0';
-            if (result > (INT_MAX - digit) / 10) {
-                return positive ? INT_MAX : INT_MIN;
+            if ((result > 0 && result > (INT_MAX - digit) / 10) || (result < 0 && result < (INT_MIN + digit) / 10)) {
+                return result > 0 ? INT_MAX : INT_MIN;
+            } else {
+                result = result * 10;
+                result += negative ? -digit : digit;
             }
-            result *= 10;
-            result += digit;
             i++;
         }
-        return positive ? result : -result;
+        return result;
     }
 };
 /*
-Procedure:
-1. Ignore leading whitespace
-2. Determine Signedness (+ / -)
-3. Ignore leading zero
-4. Read numbers unitl encountering non-digit
-    - Round to 32 bits range
+result = 0
+ignore leading white spaces
+check + or -
+while s[i] in [0, 9]
+    int digit = s[i] - '0'
+    if ((result > 0 && result < (INT_MAX - digit) / 10) || (result < 0 && result < (INT_MIN + digit) / 10))
+        overflow // if result == 0, don't need to check overflow
+    else 
+        result = result * 10 + (char-'0') % 10
 */
