@@ -10,33 +10,44 @@
  * };
  */
 class Solution {
-private:
-    int count = 0;
-    int ans = -1;
-
 public:
     int kthSmallest(TreeNode* root, int k) {
-        inOrderTraverse(root, k);
-        return ans;
+        int cur = 0;
+        return inOrder(root, k, cur);
     }
-
 private:
-    void inOrderTraverse(TreeNode* root, int k) {
-        if (!root) {
-            return;
-        }
-        inOrderTraverse(root->left, k);
-        count++;
-        if (count == k ){
-            ans = root->val;
-            return;
-        }
-        inOrderTraverse(root->right, k);
+    int inOrder(TreeNode* node, int& k, int& cur) {
+        if (!node) return -1;
+        // left
+        int leftVal = inOrder(node->left, k, cur);
+        if (leftVal != -1) return leftVal;
+        // root
+        cur++;
+        if (cur == k) return node->val;
+        // right
+        int rightVal = inOrder(node->right, k, cur);
+        return rightVal; // -1 or real val
     }
 };
-
 /*
-BST -> sorted array when we traverse via in-order (left root right)
-We can use recursion and record the ?th smallest value node
-T: O(n) / S: O(h)
+use inorder (left->root->right) can traverse the BST from small to big
+Time: O(k)
+Space: O(h)
+
+return inOrder(root, k, cur)
+
+int inOrder(TreeNode* node, int& k, int& cur)
+    if (!node) return -1
+    // left
+    int leftVal = inOrder(node->left, k, cur)
+    if (leftVal != -1) return leftVal
+    
+    // root
+    cur++;
+    if (cur == k) return node->val
+
+    // right
+    the same logic as left
+    
+    return -1 // haven't found target
 */
