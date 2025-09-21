@@ -25,16 +25,16 @@ public:
     }
 };
 /*
-special case: the last permutation -> reverse the nums
-5 4 3 2 1
-1 2 3 4 5
-
-normal case:
-check from rightmost
-find the first element (pivot) which is bigger than its left neighbor (left)
+Normal case: do the "min change" to make the permutation bigger
+min change -> try to find the rightmost possible change
+for decreasing part (from left to right), can't make bigger
+-> find the first element (pivot), which is bigger than its left neighbor (left)
 swap(left, the first and rightmost element which is bigger than left)
 reverse(right, end)
 
+Special case: the last permutation -> reverse the nums
+
+Normal example
 1 2 4 3 5
       l p/b
 1 2 4 5 3
