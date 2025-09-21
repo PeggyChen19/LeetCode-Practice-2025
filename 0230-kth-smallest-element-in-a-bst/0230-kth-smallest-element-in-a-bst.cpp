@@ -12,42 +12,27 @@
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-        int cur = 0;
-        return inOrder(root, k, cur);
+        int ans = 0;
+        inOrder(root, k, ans);
+        return ans;
     }
 private:
-    int inOrder(TreeNode* node, int& k, int& cur) {
-        if (!node) return -1;
+    bool inOrder(TreeNode* node, int& k, int& ans) {  // return if found kth or not
+        if (!node) return false;
         // left
-        int leftVal = inOrder(node->left, k, cur);
-        if (leftVal != -1) return leftVal;
+        if (inOrder(node->left, k, ans)) return true; // left part has found -> early return 
         // root
-        cur++;
-        if (cur == k) return node->val;
+        k--;
+        if (k == 0) {
+            ans = node->val;
+            return true;
+        }
         // right
-        int rightVal = inOrder(node->right, k, cur);
-        return rightVal; // -1 or real val
+        return inOrder(node->right, k, ans);
     }
 };
 /*
 use inorder (left->root->right) can traverse the BST from small to big
 Time: O(k)
 Space: O(h)
-
-return inOrder(root, k, cur)
-
-int inOrder(TreeNode* node, int& k, int& cur)
-    if (!node) return -1
-    // left
-    int leftVal = inOrder(node->left, k, cur)
-    if (leftVal != -1) return leftVal
-    
-    // root
-    cur++;
-    if (cur == k) return node->val
-
-    // right
-    the same logic as left
-    
-    return -1 // haven't found target
 */
