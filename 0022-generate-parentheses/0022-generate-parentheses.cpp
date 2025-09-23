@@ -1,48 +1,36 @@
 class Solution {
 public:
     vector<string> generateParenthesis(int n) {
-        vector<string> results;
-        string ans = "(";
-        backtracking(1, n-1, ans, results);
-        return results;
+        vector<string> result;
+        string s = "";
+        int unmatchedL = 0;
+        int remainedL = n;
+        buildString(unmatchedL, remainedL, s, result);
+        return result;
     }
 private:
-    void backtracking(int unmatched, int unused, string& ans, vector<string>& results) {
-        if (unmatched == 0 && unused == 0) {
-            results.push_back(ans);
+    void buildString(int unmatchedL, int remainedL, string s, vector<string>& result) {
+        if (unmatchedL == 0 && remainedL == 0) {
+            result.push_back(s);
+            return;
         }
-        if (unmatched > 0) {
-            ans.push_back(')');
-            backtracking(unmatched-1, unused, ans, results);
-            ans.pop_back();
+        if (remainedL > 0) { // push left
+            buildString(unmatchedL + 1, remainedL - 1, s + '(', result);
         }
-        if (unused > 0) {
-            ans.push_back('(');
-            backtracking(unmatched+1, unused-1, ans, results);
-            ans.pop_back();
+        if (unmatchedL > 0) { // push right
+            buildString(unmatchedL - 1, remainedL, s + ')', result);
         }
     }
 };
 /*
-use backtracking to span all possibilities
-for each round, we can choose
-1. put left (if there is unused left)
-2. put right to match existing left
-we need to record the number of
-1. unused left
-2. unmatched left
-3. matched left (= all-1-2)
+n = 2, must have 2 ( and 2 ), we need to build valid combinations
+( -> () -> ()( -> ()()
+  -> (( -> (() -> (())
 
-backtracking("(", 1, n-1)
-void backtracking(string& ans, int unmatched, int unused)
-    if(unmatched == 0 && unused == 0)
-        results.push(ans)
-    if(unmatched > 0)
-        ans.push(")")
-        backtracking(ans, unmatched-1, unused)
-        ans.pop
-    if(unused > 0)
-        ans.push("(")
-        backtracking(ans, unmatched+1, unused-1);
-
+backtracking
+for each step, we can choose
+1. push left if there are remained left
+2. push right if there are unmatched left
+terminate condition
+remainedL == 0 && unmatchedL == 0
 */
