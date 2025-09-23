@@ -2,15 +2,15 @@ class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
         int n = nums.size();
-        int minDiff = INT_MAX;
+        int closest = nums[0] + nums[1] + nums[2];
         sort(nums.begin(), nums.end());
         for (int i = 0; i < n; i++) {
             if (i > 0 && nums[i - 1] == nums[i]) continue; // avoid duplication
             int left = i + 1, right = n - 1;
             while (left < right) {
                 int sum = nums[i] + nums[left] + nums[right];
-                if (abs(target - sum) < abs(minDiff)) { // find a smaller diff
-                    minDiff = target - sum;
+                if (abs(target - sum) < abs(target - closest)) { // find a closer ans
+                    closest = sum;
                 }
                 if (sum == target) return target;
                 else if (sum > target) {
@@ -20,7 +20,7 @@ public:
                 }
             }
         }
-        return target - minDiff;
+        return closest;
     }
 };
 /*
