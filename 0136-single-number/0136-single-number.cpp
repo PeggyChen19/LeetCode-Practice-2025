@@ -1,15 +1,22 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int ans = nums[0];
-        for (int i = 1; i < nums.size(); i++) {
-            ans ^= nums[i];
+        int result = 0;
+        for(int num : nums) {
+            result ^= num;
         }
-        return ans;
+        return result;
     }
 };
 /*
-A xor A = 0
-0 xor B = B
-There are several pairs and only one single -> XOR all nums and the result is the ans
+1 2 2 1 3 -> find the single one: 3
+
+XOR:
+  0 1
+0 0 1
+1 1 0
+
+A XOR A = 0
+0 XOR A = A
+0 ^ A ^ B ^ B ^ A ^ C = C
 */
