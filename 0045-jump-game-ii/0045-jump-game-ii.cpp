@@ -1,28 +1,31 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int count = 0, n = nums.size();
-        int curFarthest = 0, nextFarthest = 0;
-        for (int i = 0; i < n - 1; i++) {
-            nextFarthest = max(nextFarthest, i + nums[i]);
-            if (i == curFarthest) {
-                count++;
-                curFarthest = nextFarthest;
+        if (nums.size() == 1) return 0;
+        int step = 0, curReachable = 0, nextReachable = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            nextReachable = max(nextReachable, i + nums[i]);
+            if (i == curReachable) {
+                curReachable = nextReachable;
+                step++;
             }
+            if (curReachable >= nums.size() - 1) return step;
         }
-        return count;
+        return -1;
     }
 };
 /*
-Target: min jumps to reach nums[n-1]
-DP / Greedy -> Greedy can do it, don't need DP
-Concept: keep finding the point which can go farthest
+DP -> hard to write the transition function
 
-curFarthest: the end of the current jump range. 
-             When we reach this point, we must jump, and update it to nextFarthest.
-
-nextFarthest: the farthest point we can reach within the current range.
-              It keeps updating as we explore positions inside the current jump range.
-
-We scan from left to right, always tracking the farthest point we can reach (nextFarthest). When we reach the end of the current range (curFarthest), we must make a jump, and update curFarthest to nextFarthest.
+Greedy -> record and update the "current max reachable"
+we also need to record the steps needed for the reachable range
+however, when we go through within the range, we will have to extend the reachable range
+how to update the steps correctly?
+two reachable: curReachable(with steps) & nextReachable(the potential within the curReachable)
+curReachable = nextReachable = step = 0
+for i = 0; i < size; i++
+    update nextReachable with max(nextReachalbe, i + nums[i])
+    when i == curReachable
+        curReachable = nextReachable
+        step++
 */
