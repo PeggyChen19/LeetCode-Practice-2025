@@ -4,25 +4,30 @@ public:
         vector<vector<string>> result;
         unordered_map<string, int> anagrams;
         for (string str : strs) {
-            string sorted = str;
-            sort(sorted.begin(), sorted.end());
-            if (!anagrams.count(sorted)) { // new anagram
-                anagrams.insert({sorted, anagrams.size()});
+            vector<int> counts(26, 0);
+            for (char ch : str) {
+                counts[ch - 'a']++;
+            }
+            string key = "";
+            for (int count : counts) {
+                key += to_string(count) + "#";
+            }
+            if (!anagrams.count(key)) { // new anagram
+                anagrams.insert({key, anagrams.size()});
                 result.push_back({str});
             } else {
-                result[anagrams[sorted]].push_back(str);
+                result[anagrams[key]].push_back(str);
             }
         }
         return result;
     }
 };
 /*
-
 init result vector<vector<string>> 
 create unordered_map<string, int> to map unique sorted string & result index
 sort the string
+		(freqnecy count -> time: n, space: 1) -> better
     (use built in funciton -> time: nlogn, space: 1)
-    (OR count sort -> time: n, space: n)
     if it's unique sorted string
         insert into unordered_map, and insert into corresponding result
     if it's exisiting sorted string
