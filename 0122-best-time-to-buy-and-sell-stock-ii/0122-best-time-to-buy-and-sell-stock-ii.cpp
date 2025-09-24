@@ -1,17 +1,33 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
+        if (prices.empty()) return 0;
         int profit = 0;
-        for (int i = 1; i < prices.size(); i++) {
-            if (prices[i - 1] < prices[i]) {
-                profit += (prices[i] - prices[i - 1]);
+        int minP = prices[0], maxP = prices[0];
+        for (int price : prices) {
+            if (price < maxP) {
+                profit += (maxP - minP);
+                minP = price;
+                maxP = price;
             }
+            maxP = max(maxP, price);
+            minP = min(minP, price);
         }
+        profit += (maxP - minP);
         return profit;
     }
 };
 /*
-1. keep recording the min point
-2. when encountering a peak -> sell it (profit = peak - min)
-Improvement: don't need to find the exactly min point & peak -> just sum up all increasing intervals
+max profit = max(price) - min(price)
+Greedy
+record min & max price
+we can buy multiple times -> when there is an increasing subarray, buy with max - min
+
+
+i i i d d d i i i
+b   s     b     s
+
+7 1 5 3 6 4
+  ---|---
+4 + 3 = 7
 */
