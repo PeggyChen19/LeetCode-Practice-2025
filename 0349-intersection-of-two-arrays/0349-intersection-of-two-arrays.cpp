@@ -1,17 +1,15 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        sort(nums1.begin(), nums1.end());
-        sort(nums2.begin(), nums2.end());
-        int p1 = 0, p2 = 0, n = nums1.size(), m = nums2.size();
+        if (nums2.size() < nums1.size()) {
+            swap(nums1, nums2);
+        }
+        unordered_set<int> s1(nums1.begin(), nums1.end());
         vector<int> result;
-        while (p1 < n && p2 < m) {
-            if (nums1[p1] < nums2[p2]) p1++;
-            else if (nums2[p2] < nums1[p1]) p2++;
-            else {
-                result.push_back(nums1[p1]);
-                while (p1 < n && nums1[p1] == result.back()) p1++;
-                while (p2 < m && nums2[p2] == result.back()) p2++;
+        for (int num : nums2) {
+            if (s1.count(num)) {
+                result.push_back(num);
+                s1.erase(num);
             }
         }
         return result;
