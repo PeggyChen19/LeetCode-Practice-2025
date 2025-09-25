@@ -1,12 +1,12 @@
 class Solution {
 public:
     string reverseVowels(string s) {
-        unordered_set<char> vowel = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+        string vowels = "aeiouAEIOU";
         int left = 0, right = s.size() - 1;
         while (left < right) {
-            while (left < right && !vowel.count(s[left])) left++; // keep moving until vowel
-            while (left < right && !vowel.count(s[right])) right--;
-            if (left < right && vowel.count(s[left]) && vowel.count(s[right])) {
+            while (left < right && vowels.find(s[left]) == string::npos) left++; // keep moving until vowel
+            while (left < right && vowels.find(s[right]) == string::npos) right--;
+            if (left < right) {
                 swap(s[left], s[right]);
                 left++;
                 right--;
