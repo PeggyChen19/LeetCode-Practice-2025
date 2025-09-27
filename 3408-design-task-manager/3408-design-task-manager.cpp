@@ -12,7 +12,7 @@ public:
     unordered_map<int, set<vector<int>, CustomCompare>::iterator> iterator_map; // taskId -> iterator
 
     TaskManager(vector<vector<int>>& tasks) {
-        for (auto task : tasks) {
+        for (auto& task : tasks) {
             add(task[0], task[1], task[2]);
         }
     }
