@@ -1,22 +1,31 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        int globalMax = nums[0], maxProduct = nums[0], minProduct = nums[0];
-        for (int i = 1; i < nums.size(); i++) {
-            int preMaxProduct = maxProduct, preMinProduct = minProduct;
-            maxProduct = max(nums[i], max(preMaxProduct * nums[i], preMinProduct * nums[i]));
-            minProduct = min(nums[i], min(preMaxProduct * nums[i], preMinProduct * nums[i]));
-            globalMax = max(globalMax, maxProduct);
+        if (nums.empty()) return 0;
+        int global_max = nums[0], negative_min = 0, positive_max = 0;
+        for (int num : nums) {
+            if (num < 0) {
+                int original_positive_max = positive_max;
+                positive_max = negative_min * num;
+                negative_min = min(original_positive_max * num, num);
+            } else {
+                negative_min = negative_min * num;
+                positive_max = max(positive_max * num, num);
+            }
+            global_max = max(global_max, positive_max);
         }
-        return globalMax;
+        return global_max;
     }
 };
-/*
-Subarray -> DP / Sliding Window
-have negative nums -> not sliding window
 
-Subproblem: maxProduct & minProduct ends with index
-Transition function:
-maxProduct[i] = max(nums[i], maxProduct[i - 1] * nums[i], minProduct[i - 1] * nums[i])
-minProduct[i] = min(nums[i], maxProduct[i - 1] * nums[i], minProduct[i - 1] * nums[i])
+/*
+abs(bigProduct) has potential -> record it
+
+negative_min -> become bigger when encounter negative
+positive_max -> become bigger when encounter positive
+
+global_max -> the result we return
+negative_min[i]: the smallest negative product subarray ends with i
+positive_max[i]: the biggest positive product subarray ends with i
+we only need the previous negative_min & positive_max
 */
