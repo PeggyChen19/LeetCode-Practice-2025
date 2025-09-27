@@ -1,34 +1,20 @@
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
-        vector<int> result;
-        int size = nums.size();
-        int pos = size;
-        for (int i = 0; i < size; i++) {
-            if (nums[i] >= 0) {
-                pos = i;
-                break;
-            }
-        }
-        int neg = pos - 1, negSquare, posSquare;
-        while (neg >= 0 && pos < size) {
-            negSquare = nums[neg] * nums[neg];
-            posSquare = nums[pos] * nums[pos];
-            if (negSquare < posSquare) {
-                result.push_back(negSquare);
-                neg--;
+        int n = nums.size();
+        vector<int> result(n);
+        int left = 0, right = n - 1, i = n - 1;
+        while (left <= right) {
+            int leftSquare = nums[left] * nums[left];
+            int rightSquare = nums[right] * nums[right];
+            if (leftSquare > rightSquare) {
+                result[i] = leftSquare;
+                left++;
             } else {
-                result.push_back(posSquare);
-                pos++;
+                result[i] = rightSquare;
+                right--;
             }
-        }
-        while (neg >= 0) {
-            result.push_back(nums[neg] * nums[neg]);
-            neg--;
-        }
-        while (pos < size) {
-            result.push_back(nums[pos] * nums[pos]);
-            pos++;
+            i--;
         }
         return result;
     }
@@ -36,5 +22,6 @@ public:
 /*
 -3 -1 0 2 4
 9 1 0 4 16
-from the first element >= 0, go left and go right respectively, create the result vecotr in order
+Two pointers -> start from both ends and compare two ends
+Fill the result vector from big to small
 */
