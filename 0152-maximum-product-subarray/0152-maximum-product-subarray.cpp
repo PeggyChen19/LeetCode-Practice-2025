@@ -2,15 +2,15 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         if (nums.empty()) return 0;
-        int global_max = nums[0], negative_min = 0, positive_max = 0;
-        for (int num : nums) {
-            if (num < 0) {
+        int global_max = nums[0], negative_min = min(0, nums[0]), positive_max = max(0, nums[0]);
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] < 0) {
                 int original_positive_max = positive_max;
-                positive_max = negative_min * num;
-                negative_min = min(original_positive_max * num, num);
+                positive_max = negative_min * nums[i];
+                negative_min = min(original_positive_max * nums[i], nums[i]);
             } else {
-                negative_min = negative_min * num;
-                positive_max = max(positive_max * num, num);
+                negative_min = negative_min * nums[i];
+                positive_max = max(positive_max * nums[i], nums[i]);
             }
             global_max = max(global_max, positive_max);
         }
