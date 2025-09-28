@@ -1,19 +1,13 @@
 class Solution {
 public:
     int addDigits(int num) {
-        while (num >= 10) {
-            int nextNum = 0;
-            while (num) {
-                int digit = num % 10;
-                nextNum += digit;
-                num /= 10;
-            }
-            num = nextNum;
-        }
-        return num;
+        if (num == 0) return 0;
+        int remainder = num % 9;
+        return remainder == 0 ? 9 : remainder;
     }
 };
 /*
-get the lowest digit by mod 10
-keep calculating
+num = d1 * 10^n + d2 * 10^n-1 + ... dn * 10^0
+mod 9 for each element
+num = d1 + d2 + .... dn
 */
