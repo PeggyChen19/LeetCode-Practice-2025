@@ -1,23 +1,20 @@
+
 class Solution {
 public:
     void wiggleSort(vector<int>& nums) {
-        vector<int> sorted = sorting(nums);        
-        int mid = nums.size() / 2; // find mid
-        if(nums.size() % 2 == 0) mid--;
-        int end = nums.size() - 1;
-        for(int i = 0; i < nums.size(); i++){
-            if(i % 2 == 0){
-                nums[i] = sorted[mid];
-                mid--;
-            }
-            else{
-                nums[i] = sorted[end];
-                end--;
-            }
+        int n = (int)nums.size();
+        if (n <= 1) return;
+
+        vector<int> a(nums);
+        sort(a.begin(), a.end());
+
+        int mid = (n + 1) / 2;  // size of small half
+        int i = mid - 1;        // last index of small half (descending)
+        int j = n - 1;          // last index of large half (descending)
+
+        for (int k = 0; k < n; ++k) {
+            if (k % 2 == 0) nums[k] = a[i--];  // even: smaller (desc)
+            else            nums[k] = a[j--];  // odd : larger  (desc)
         }
-    }
-    vector<int> sorting(vector<int> v){
-        sort(v.begin(), v.end());
-        return v;
     }
 };
