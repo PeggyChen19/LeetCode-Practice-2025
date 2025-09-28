@@ -8,6 +8,6 @@ public:
 };
 /*
 num = d1 * 10^n + d2 * 10^n-1 + ... dn * 10^0
-mod 9 for each element
-num = d1 + d2 + .... dn
+mod 9 for each element, will make 10^i part becomes 1 (e.g. 100 - 9*11 = 1)
+num after mod 9 = d1 + d2 + .... dn
 */
