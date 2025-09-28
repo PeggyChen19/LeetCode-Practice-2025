@@ -9,8 +9,8 @@ public:
         sort(a.begin(), a.end());
 
         int mid = n / 2 + n % 2; // mid is the start of large half
-        int i = mid - 1;        // last index of small half (descending)
-        int j = n - 1;          // last index of large half (descending)
+        int i = mid - 1; // last index of small half (descending)
+        int j = n - 1; // last index of large half (descending)
 
         for (int k = 0; k < n; ++k) {
             if (k % 2 == 0) nums[k] = a[i--];  // even: smaller (desc)
