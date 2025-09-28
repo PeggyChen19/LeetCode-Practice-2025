@@ -8,7 +8,7 @@ public:
         vector<int> a(nums);
         sort(a.begin(), a.end());
 
-        int mid = (n + 1) / 2;  // size of small half
+        int mid = n / 2 + n % 2; // mid is the start of large half
         int i = mid - 1;        // last index of small half (descending)
         int j = n - 1;          // last index of large half (descending)
 
