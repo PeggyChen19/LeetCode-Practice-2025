@@ -4,15 +4,16 @@ private:
 
 public:
     NumMatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        regionSum = vector<vector<int>>(m, vector<int>(n, 0));
         for (int i = 0; i < matrix.size(); i++) {
-            regionSum.push_back({});
             int prefixSum = 0;
             for (int j = 0; j < matrix[0].size(); j++) {
                 prefixSum += matrix[i][j];
                 if (i == 0) {
-                    regionSum[i].push_back(prefixSum);
+                    regionSum[i][j]= prefixSum;
                 } else {
-                    regionSum[i].push_back(regionSum[i - 1][j] + prefixSum);
+                    regionSum[i][j] = regionSum[i - 1][j] + prefixSum;
                 }
             }
         }
