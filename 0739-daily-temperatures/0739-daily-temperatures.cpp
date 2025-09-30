@@ -1,22 +1,23 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temperatures) {
-        int size = temperatures.size();
-        stack<int> st;
-        vector<int> result(size, 0);
-        for (int i = 0; i < size; i++) {
-            while (!st.empty() && temperatures[i] > temperatures[st.top()]) {
-                result[st.top()] = i - st.top();
-                st.pop();
+        int n = temperatures.size();
+        vector<int> result(n, 0);
+        stack<int> decreasingSt;
+        for (int i = n - 1; i >= 0; i--) {
+            while (!decreasingSt.empty() && temperatures[decreasingSt.top()] <= temperatures[i]) {
+                decreasingSt.pop();
             }
-            st.push(i);
+            if (!decreasingSt.empty()) result[i] = decreasingSt.top() - i;
+            decreasingSt.push(i);
         }
         return result;
     }
 };
 /*
-Target: find the "first" element bigger than the current one on the right side
-We can maintain a monotonic stack which is decreasing -> the elements in the stack haven't found the bigger one
-When find the bigger one, pop the smaller elements and maintain the stack
-Note: record the stack using index
+find the next strickly greater element on the right side
+monotonic decreasing stack (top is the smallest, if it's smaller than current, pop, find the first elemnt > cur)
+build the stack from right to left (always maintain the valid right candidates)
+
+stack can store the index only, and then we use index to lookup value
 */
