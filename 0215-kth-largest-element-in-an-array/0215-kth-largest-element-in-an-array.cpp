@@ -1,36 +1,40 @@
 class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        k--; // this is the 0-indexed
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int pivot = quickSelect(nums, left, right);
+            if (pivot == k) {
+                return nums[pivot];
+            } else if (pivot < k) { // go right
+                left = pivot + 1;
+            } else { // go left
+                right = pivot - 1;
+            }
+        }
+        return 0; // not found -> impossible
+    }
 private:
-    int partition(vector<int>& nums, int left, int right) {
+    int quickSelect(vector<int>& nums, int left, int right) {
+        // target: left part >= pivot, right part <= pivot
         int pivot = nums[left], l = left + 1, r = right;
         while (l <= r) {
-            if (nums[l] < pivot && nums[r] > pivot) {
+            if (nums[l] < pivot && nums[r] > pivot) { // both invalid -> swap
                 swap(nums[l], nums[r]);
                 l++;
                 r--;
+            } 
+            if (l <= r && nums[l] >= pivot) { // valid, move forward
+                l++;
             }
-            if (nums[l] >= pivot) l++;
-            if (nums[r] <= pivot) r--;
+            if (l <= r && nums[r] <= pivot) { // valid, move backward
+                r--;
+            }
         }
-        swap(nums[left], nums[r]);
+        // after loop, it ends up [left... r l ...]
+        // r >= pivot, so swap to the left side
+        swap(nums[r], nums[left]);
         return r;
     }
-
-public:
-    int findKthLargest(vector<int>& nums, int k) {
-        k--;
-        int left = 0, right = nums.size() - 1;
-        while (left <= right) {
-            int ind = partition(nums, left, right);
-            if (ind == k) return nums[ind];
-            else if (ind > k) right = ind - 1; // go left
-            else left = ind + 1; // go right
-        }
-        return -1;
-    }
 };
-/*
-Quick Select:
-partision:
-    select a pivot, place nums < pivot to left, >= pivot to right
-recursively do the partision based on the index of pivot until index == k
-*/
