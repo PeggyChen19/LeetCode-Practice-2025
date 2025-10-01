@@ -1,22 +1,35 @@
 class Solution {
 public:
-    int trap(vector<int>& h) {
-        int n = (int)h.size(), l = 0, r = n - 1;
-        int leftMax = 0, rightMax = 0, ans = 0;
-        while (l < r) {
-            if (h[l] <= h[r]) {
-                leftMax = max(leftMax, h[l]);
-                ans += leftMax - h[l];
-                ++l;
+    int trap(vector<int>& height) {
+        if (height.empty()) return 0;
+        int ans = 0;
+        int l = 0, r = height.size() - 1;
+        int leftMax = height[l], rightMax = height[r];
+        while (l <= r) {
+            leftMax = max(leftMax, height[l]);
+            rightMax = max(rightMax, height[r]);
+            if (leftMax < rightMax) {
+                ans += (leftMax - height[l]);
+                l++;
             } else {
-                rightMax = max(rightMax, h[r]);
-                ans += rightMax - h[r];
-                --r;
+                ans += (rightMax - height[r]);
+                r--;
             }
         }
         return ans;
     }
 };
 /*
+the water we can store always decide by the lower wall
+use two pointers from both ends, record the leftMax & rightMax
 
+while l <= r
+    update leftMax & rightMax
+    if leftMax < rightMax // the limit is left
+        ans += (leftMax - height[l]) // it will have a higher right wall in the future -> keep the current result
+        l++
+    else
+        ans += (rightMax - height[r])
+        r--
+return ans
 */
