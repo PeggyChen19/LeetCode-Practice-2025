@@ -2,7 +2,7 @@ class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int m = nums1.size(), n = nums2.size();
-        if (m > n) return findMedianSortedArrays(nums2, nums1);
+        if (m > n) return findMedianSortedArrays(nums2, nums1); // always binary search the smaller part
         int leftPart = (m + n) / 2;
         int left = 0; // put everything to right
         int right = m; // put everythin to left
