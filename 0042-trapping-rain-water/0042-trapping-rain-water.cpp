@@ -6,10 +6,11 @@ public:
         int l = 0, r = height.size() - 1;
         int leftMax = height[l], rightMax = height[r];
         while (l <= r) {
+            // update max on both side
             leftMax = max(leftMax, height[l]);
             rightMax = max(rightMax, height[r]);
-            if (leftMax < rightMax) {
-                ans += (leftMax - height[l]);
+            if (leftMax < rightMax) { // the limit is left
+                ans += (leftMax - height[l]); // it will have a higher right wall in the future -> add the current result
                 l++;
             } else {
                 ans += (rightMax - height[r]);
@@ -26,7 +27,7 @@ use two pointers from both ends, record the leftMax & rightMax
 while l <= r
     update leftMax & rightMax
     if leftMax < rightMax // the limit is left
-        ans += (leftMax - height[l]) // it will have a higher right wall in the future -> keep the current result
+        ans += (leftMax - height[l]) // it will have a higher right wall in the future -> add the current result
         l++
     else
         ans += (rightMax - height[r])
