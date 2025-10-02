@@ -9,20 +9,19 @@ private:
         while (i < m && j < n) {
             if (j < n - 1 && p[j + 1] == '*') {
                 bool skipStar = checkMatch(i, s, j + 2, p); // skip _*, go to next pattern
-                bool useStar = singleMatch(i, s, j, p) ? checkMatch(i + 1, s, j, p) : false; // if can match, keep this pattern
+                bool useStar = (p[j] == '.' || s[i] == p[j]) ? checkMatch(i + 1, s, j, p) : false; // if can match, keep this pattern
                 return skipStar || useStar;
-            } else if (singleMatch(i, s, j, p)) { // matched
+            } else if (p[j] == '.' || s[i] == p[j]) { // matched
                 i++;
                 j++;
             } else { // not matched
                 return false;
             }
         }
-        return (j == n - 2 && p[j + 1] == '*') || (i == m && j == n);
-    }
-
-    bool singleMatch(int i, string& s, int j, string& p) {
-        return (p[j] == '.' || s[i] == p[j]);
+        while (j < n - 1 && p[j + 1] == '*') {
+            j += 2;
+        }
+        return (i == m && j == n);
     }
 };
 /*
