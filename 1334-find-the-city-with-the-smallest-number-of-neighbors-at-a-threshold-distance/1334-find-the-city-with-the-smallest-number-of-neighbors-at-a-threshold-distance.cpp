@@ -18,6 +18,7 @@ public:
     }
 private:
     int dijkstra(int i, vector<vector<pair<int, int>>>& graph, int threshold) {
+        int reachable = 0;
         int n = graph.size();
         vector<int> minDist(n, INT_MAX);
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap; // weight, node
@@ -26,7 +27,9 @@ private:
         while (!minHeap.empty()) {
             auto [cur_w, cur] = minHeap.top();
             minHeap.pop();
-            if (cur_w > minDist[cur]) continue; // outdated
+            if (cur_w != minDist[cur]) continue; // outdated
+            if (cur_w > threshold) break;
+            if (i != cur) reachable++;
             for (auto [neighbor, weight] : graph[cur]) {
                 int newWeight = cur_w + weight;
                 if (newWeight < minDist[neighbor] && newWeight <= threshold) { // find better path
@@ -35,13 +38,7 @@ private:
                 }
             }
         }
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            if (minDist[i] > 0 && minDist[i] <= threshold) {
-                count++;
-            }
-        }
-        return count;
+        return reachable;
     }
 };
 /*
