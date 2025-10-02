@@ -26,17 +26,3 @@ private:
         return (i == m && j == n);
     }
 };
-/*
-s[i], p[j]
-recursion(i, j)
-    while not reaching end
-        if (p[j + 1] == *)
-            recursion(i, j+2) // zero
-            recursion(i+1, j) // one or more
-        if (p[j] == .) // directly match a random char
-            i++
-            j++
-        if not match
-            return false
-    return (both finish)
-*/
