@@ -8,8 +8,10 @@ private:
         int m = s.size(), n = p.size();
         while (i < m && j < n) {
             if (j < n - 1 && p[j + 1] == '*') {
-                bool skipStar = checkMatch(i, s, j + 2, p); // skip _*, go to next pattern
-                bool useStar = (p[j] == '.' || s[i] == p[j]) ? checkMatch(i + 1, s, j, p) : false; // if can match, keep this pattern
+                // skip _*, go to next pattern
+                bool skipStar = checkMatch(i, s, j + 2, p); 
+                // if can match: go to next i, butkeep this pattern
+                bool useStar = (p[j] == '.' || s[i] == p[j]) ? checkMatch(i + 1, s, j, p) : false;
                 return skipStar || useStar;
             } else if (p[j] == '.' || s[i] == p[j]) { // matched
                 i++;
