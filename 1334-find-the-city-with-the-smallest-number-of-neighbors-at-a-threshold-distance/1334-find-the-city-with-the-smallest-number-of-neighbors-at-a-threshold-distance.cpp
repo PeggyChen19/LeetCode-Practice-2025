@@ -43,7 +43,6 @@ private:
         }
         return count;
     }
-
 };
 /*
 do the shortest path n times, if path > threshold -> break
