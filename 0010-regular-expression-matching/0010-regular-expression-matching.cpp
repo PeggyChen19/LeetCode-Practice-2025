@@ -6,23 +6,21 @@ public:
 private:
     bool checkMatch(int i, string& s, int j, string& p) {
         int m = s.size(), n = p.size();
-        while (i < m && j < n) {
-            if (j < n - 1 && p[j + 1] == '*') {
-                // skip _*, go to next pattern
-                bool skipStar = checkMatch(i, s, j + 2, p); 
-                // if can match: go to next i, butkeep this pattern
-                bool useStar = (p[j] == '.' || s[i] == p[j]) ? checkMatch(i + 1, s, j, p) : false;
-                return skipStar || useStar;
-            } else if (p[j] == '.' || s[i] == p[j]) { // matched
-                i++;
-                j++;
-            } else { // not matched
-                return false;
-            }
-        }
-        while (j < n - 1 && p[j + 1] == '*') {
+        while (i == m && j < n - 1 && p[j + 1] == '*') {
             j += 2;
         }
-        return (i == m && j == n);
+        if (i == m && j == n) return true;
+        if (i == m || j == n) return false;
+        if (j < n - 1 && p[j + 1] == '*') {
+            // skip _*, go to next pattern
+            bool skipStar = checkMatch(i, s, j + 2, p); 
+            // if can match: go to next i, butkeep this pattern
+            bool useStar = (p[j] == '.' || s[i] == p[j]) ? checkMatch(i + 1, s, j, p) : false;
+            return skipStar || useStar;
+        } else if (p[j] == '.' || s[i] == p[j]) { // matched
+            return checkMatch(i + 1, s, j + 1, p);
+        } else { // not matched
+            return false;
+        }
     }
 };
