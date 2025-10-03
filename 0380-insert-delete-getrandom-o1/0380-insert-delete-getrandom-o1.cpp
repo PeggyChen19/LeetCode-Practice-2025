@@ -1,45 +1,42 @@
 class RandomizedSet {
+private:
+    unordered_map<int, int> data_mapping; // value: index
+    vector<int> data_vector;              // index: value
 public:
-    vector<int> valVec; //ind: val
-    unordered_map<int, int> valMap; //val: ind
     RandomizedSet() {
         srand(time(NULL));
     }
 
-    bool insert(int val) {
-        if (valMap.count(val)) {
+    bool insert(int value) {
+        if (data_mapping.count(value)) {
             return false;
         } else {
-            valMap[val] = valVec.size();
-            valVec.push_back(val);
+            data_mapping[value] = data_vector.size();
+            data_vector.push_back(value);
             return true;
         }
     }
-    
-    bool remove(int val) {
-        if (valMap.count(val)) {
-            int removedInd = valMap[val];
-            int lastVal = valVec.back();
-            valVec[removedInd] = lastVal; // update indMap
-            valVec.pop_back();
-            valMap[lastVal] = removedInd; // update valMap
-            valMap.erase(val);
+
+    bool remove(int value) {
+        if (data_mapping.count(value)) {
+            int index = data_mapping[value];
+            // swap
+            data_mapping[data_vector.back()] = index;
+            swap(data_vector[index], data_vector.back());
+            // remove
+            data_mapping.erase(value);
+            data_vector.pop_back();
             return true;
-        } else {
+        } else { 
             return false;
         }
     }
-    
+
     int getRandom() {
-        return valVec[rand() % valVec.size()];
+        if (data_vector.empty()) {
+            return -1;
+        }
+        int randomInd = rand() % data_vector.size(); // output range: 0 ~ size - 1
+        return data_vector[randomInd];
     }
 };
-/**
-O(1): insert & remove & getRandom
-vector<int>: index, val
-unordered_map<int, int>: val, index
-create a variable size to record the map size
-insert: size++
-remove: size--, move the last element to the removed index
-getRandom: randomly pick an index from 0~size-1
-*/
