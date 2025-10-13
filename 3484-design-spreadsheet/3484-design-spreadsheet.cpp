@@ -1,13 +1,9 @@
 class Spreadsheet {
 private:
+    int rows_;
     vector<vector<int>> sheet;
 public:
-    Spreadsheet(int rows) {
-        for (int i = 0; i < rows; i++) {
-            vector<int> row(26, 0);
-            sheet.push_back(row);
-        }
-    }
+    Spreadsheet(int rows) : rows_(rows), sheet(rows, vector<int>(26, 0)) {}
     
     void setCell(string cell, int value) {
         auto [i, j] = getCell(cell);
