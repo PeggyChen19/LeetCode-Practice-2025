@@ -1,9 +1,8 @@
 class Spreadsheet {
 private:
-    int rows_;
     vector<vector<int>> sheet;
 public:
-    Spreadsheet(int rows) : rows_(rows), sheet(rows, vector<int>(26, 0)) {}
+    Spreadsheet(int rows) : sheet(rows, vector<int>(26, 0)) {}
     
     void setCell(string cell, int value) {
         auto [i, j] = getCell(cell);
@@ -24,7 +23,7 @@ public:
     }
 
 private:
-    pair<int, int> getCell(string& cell) {
+    pair<int, int> getCell(const string& cell) {
         char col = cell[0] - 'A';
         int i = 1;
         int row = 0;
@@ -35,7 +34,7 @@ private:
         return {row - 1, col}; // row - 1 because of 1-indexed
     }
 
-    int parseElement(string& formula, int& i) {
+    int parseElement(const string& formula, int& i) {
         if (formula[i] >= 'A' && formula[i] <= 'Z') { // cell
             int col = formula[i] - 'A';
             i++;
