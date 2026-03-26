@@ -23,4 +23,16 @@ Collection of LeetCode questions to ace the coding interview! - Created using [L
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0545-boundary-of-binary-tree](https://github.com/moirachen1019/LeetCode-Practice-2025/tree/main/0545-boundary-of-binary-tree/) | Medium |
+## Hash Table
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0076-minimum-window-substring](https://github.com/moirachen1019/LeetCode-Practice-2025/tree/main/0076-minimum-window-substring/) | Hard |
+## String
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0076-minimum-window-substring](https://github.com/moirachen1019/LeetCode-Practice-2025/tree/main/0076-minimum-window-substring/) | Hard |
+## Sliding Window
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0076-minimum-window-substring](https://github.com/moirachen1019/LeetCode-Practice-2025/tree/main/0076-minimum-window-substring/) | Hard |
 <!---LeetCode Topics End-->
